@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../common/Navbar";
+import Signup from "../common/Signup";
 import Login from "../common/Login";
 
 import { RootState } from "../../redux/store";
@@ -20,6 +21,7 @@ const AppLayout = () => {
       <Navbar />
       <Outlet />
       {isShowLogin && <Login />}
+      {isShowSignup && <Signup />}
 
       <ToastContainer theme="dark" position={toast.POSITION.TOP_CENTER} />
     </div>
