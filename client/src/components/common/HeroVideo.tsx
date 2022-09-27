@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IMovie } from "../../interfaces/movie";
+import { IMovie } from "../../interface/movie";
 import movieApi from "./../../api/movieApi";
 
 const HeroVideo = () => {
