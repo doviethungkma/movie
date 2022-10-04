@@ -8,8 +8,16 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination, Autoplay, Navigation, Lazy } from "swiper";
 import MovieCard from "./MovieCard";
+import { IMovie, IEpisode } from "../../interface/movie";
 
-const Slider = (props: any) => {
+interface IProps {
+  list?: Array<IMovie> | Array<IEpisode>;
+  autoPlay?: boolean;
+  title?: string;
+  class?: string;
+}
+
+const Slider = (props: IProps) => {
   return (
     <div className="w-full ">
       <h2 className="text-white text-[24px] font-bold uppercase mb-6">
@@ -21,9 +29,11 @@ const Slider = (props: any) => {
         spaceBetween={10}
         lazy={true}
         modules={[Lazy, Autoplay, Navigation, Pagination]}
-        // autoplay={{
-        //   delay: 2500,
-        // }}
+        autoplay={
+          props.autoPlay && {
+            delay: 2500,
+          }
+        }
         breakpoints={{
           375: {
             slidesPerView: 2,
