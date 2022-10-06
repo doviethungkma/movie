@@ -1,17 +1,27 @@
 import React from "react";
-import { IMovie } from "../../interface/movie";
+import { IMovie } from "../../interfaces/movie";
 import { useDispatch } from "react-redux";
 import { showVideoPopup } from "../../redux/features/commonSlice";
+import { setMovie } from "../../redux/features/movieSlice";
 
-const MovieCard = (props: IMovie | any) => {
+interface IProps {
+  item: IMovie;
+}
+
+const MovieCard = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div onClick={() => dispatch(showVideoPopup({}))}>
+    <div
+      onClick={() => {
+        dispatch(setMovie({ movie: props.item }));
+        dispatch(showVideoPopup());
+      }}
+    >
       <img
-        src={props.image}
+        src={props.item.thumb}
         alt=""
-        className="max-w-full max-h-full object-cover"
+        className="max-w-full max-h-full object-cover aspect-video"
       />
     </div>
   );

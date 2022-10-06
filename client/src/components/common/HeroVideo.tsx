@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { IMovie } from "../../interface/movie";
+import { IMovie } from "../../interfaces/movie";
 import movieApi from "./../../api/movieApi";
 
 const HeroVideo = () => {
   const [movie, setMovie] = useState<IMovie>();
   const getMovie = async () => {
-    const response: any = await movieApi.getById("633c11ab4486b370542a25ee");
+    const response: any = await movieApi.getById("633ea0b961d50984847bc135");
     setMovie(response.movie);
   };
 
@@ -24,7 +24,7 @@ const HeroVideo = () => {
             autoPlay
             loop
             muted
-            className="absolute aspect-video "
+            className="absolute aspect-video bg-black"
           >
             <source src={movie?.trailer} type="video/mp4" />
           </video>
