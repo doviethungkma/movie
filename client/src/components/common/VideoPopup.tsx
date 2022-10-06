@@ -1,12 +1,14 @@
-import React from "react";
-import { IMovie } from "./../../../../server/src/api/v1/interfaces/movie";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { hideVideoPopup } from "../../redux/features/commonSlice";
 import Slider from "./Slider";
 
 const popupImg = require("../../assets/images/popup_img.webp");
 
 const VideoPopup = (props: any) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <div>
       <div className="w-screen h-screen fixed top-0 left-0 bg-background-color opacity-60 z-20"></div>
@@ -17,7 +19,13 @@ const VideoPopup = (props: any) => {
           className="max-w-full max-h-full object-cover"
         />
         <div className="-mt-4 px-2 lg:px-8 flex gap-2 bg-background-color">
-          <button className="flex items-center px-6 py-2 bg-white">
+          <button
+            className="flex items-center px-6 py-2 bg-white"
+            onClick={() => {
+              dispatch(hideVideoPopup());
+              navigate(`/movie/abc/def`);
+            }}
+          >
             <i className="bx bx-play text-[24px]"></i>Xem ngay
           </button>
           <button className="flex items-center px-6 py-2 transparents text-white border-white border-2">

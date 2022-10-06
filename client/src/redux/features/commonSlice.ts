@@ -6,8 +6,8 @@ interface IState {
   isShowMenu: boolean;
   isShowSignup: boolean;
   isShowVideoPopup: {
-    status: boolean;
-    movie: IMovie | any;
+    status?: boolean;
+    movie?: IMovie | any;
   };
 }
 
@@ -50,7 +50,7 @@ const commonSlice = createSlice({
       state.isShowVideoPopup.status = true;
       state.isShowVideoPopup.movie = action.payload.movie;
     },
-    hideVideoPopup: (state, action) => {
+    hideVideoPopup: (state) => {
       state.isShowVideoPopup.status = false;
       state.isShowVideoPopup.movie = {};
     },
