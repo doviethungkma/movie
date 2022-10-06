@@ -10,6 +10,10 @@ module.exports = {
         "color-gray": "var(--color-gray)",
         "modal-background-color": "var(--modal-background-color)",
       },
+      gridTemplateColumns: {
+        "70/30": "70% 30%",
+        "60/40": "60% 40%",
+      },
     },
   },
   plugins: [],

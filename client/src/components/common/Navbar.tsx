@@ -19,7 +19,10 @@ const Navbar = () => {
   });
 
   return (
-    <div className="fixed flex justify-between items-center w-full h-14 px-4 lg:px-14 border-b border-b-[#ffffff1A] bg-transparent z-50">
+    <div
+      className="fixed flex justify-between items-center w-full h-14 px-4 lg:px-14 border-b border-b-[#ffffff1A] bg-transparent z-50"
+      id="navbar"
+    >
       <div className="flex items-center h-full gap-7">
         <i
           className="bx bx-menu text-[24px] text-white cursor-pointer hover:text-gray-400 transition-all sm:hidden"
