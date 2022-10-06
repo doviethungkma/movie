@@ -1,14 +1,22 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import movieApi from "./../api/movieApi";
+import { IMovie } from "../interfaces/movie";
 
 const Movie = () => {
+  const params = useParams();
+  const movieId = params.movieId as string;
+  const [movie, setMovie] = useState<IMovie>();
+  const [currentEp, setcurrentEp] = useState(0);
   const playbackImg = require("../assets/images/playbackImg.jpg");
   const movieNameImg = require("../assets/images/title-image2.webp");
   const navigate = useNavigate();
 
+  //hide navbar on load
   useEffect(() => {
-    //hide navbar on load
     const navbar = document.getElementById("navbar") as any;
     navbar.style.display = "none";
 
@@ -22,14 +30,21 @@ const Movie = () => {
         navbar.style.backgroundColor = "#000";
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response: any = await movieApi.getById(movieId);
+      setMovie(response.movie);
+    };
+    fetchData();
+  }, []);
+
+  console.log(movie);
   return (
     <>
       <div className="w-screen h-auto aspect-video lg:h-screen relative">
@@ -38,15 +53,17 @@ const Movie = () => {
             className="bx bx-chevron-left text-white text-[36px] cursor-pointer hover:text-gray-500 transition-all"
             onClick={() => navigate("/")}
           ></i>
-          <h2 className="text-white text-[28px]">Tập 42. Hành động bộc phát</h2>
+          <h2 className="text-white text-[28px]">
+            {movie?.episodes && movie?.episodes[currentEp]?.title}
+          </h2>
         </div>
         <ReactPlayer
-          url={"https://stream1.linhminaz.com/stream/1080/hv94SGCHNblNvmf.mp4"}
+          url={movie?.episodes && movie.episodes[currentEp].url}
           width="100%"
           height="100%"
           playing={true}
           controls
-          light={playbackImg}
+          light={movie?.thumb}
         />
       </div>
       <div className="max-w-full grid grid-cols-1 md:grid-cols-60/40 gap-x-12 p-4 md:p-8 text-white">
@@ -54,7 +71,7 @@ const Movie = () => {
           <img src={movieNameImg} alt="" />
         </div>
         <div>
-          <h2 className="text-[28px] mt-4">Giấc mơ của mẹ</h2>
+          <h2 className="text-[28px] mt-4">{movie?.name}</h2>
           <div className="flex items-center gap-4">
             <p className="text-sm">28.466.921 lượt xem</p>
             <div className="flex items-center gap-2">
@@ -68,17 +85,13 @@ const Movie = () => {
               </div>
             </div>
           </div>
-          <h3 className="font-bold text-lg mt-4">Tập 42. Hành động bộc phát</h3>
-          <p className="mt-2 text-justify">
-            Giấc Mơ Của Mẹ là bộ phim gần gũi và thân thuộc với mọi cảnh đời
-            Việt Nam, khai thác nỗi lòng của người mẹ với các con của mình.
-            Trong Giấc Mơ Của Mẹ, người xem sẽ thấy chính mình và những người
-            thân quen nhất với bàn tay tài ba của đạo diễn Nguyễn Minh Chung,
-            nhà sản xuất Nguyễn Quang Dũng, đạo diễn hình ảnh Nguyễn Tranh và
-            diễn xuất của các diễn viên: NSND Hồng Vân, NSƯT Hữu Châu, NSND Kim
-            Xuân, Huỳnh Anh Tuấn, Khánh Huyền, Nhan Phúc Vinh, Diễm My 9x, Trần
-            Ngọc Vàng, Trần Quốc Anh, Kim Nhã.
-          </p>
+          {movie?.episodes && movie.episodes.length > 1 && (
+            <h3 className="font-bold text-lg mt-4">
+              {movie.episodes[currentEp].title}
+            </h3>
+          )}
+
+          <p className="mt-2 text-justify">{movie?.description}</p>
         </div>
         <div>
           <div className="flex gap-6 mt-6">
@@ -93,13 +106,13 @@ const Movie = () => {
           </div>
           <div className="flex flex-col gap-2 mt-4">
             <p className="text-gray-500 ">
-              Diễn viên: <span className="text-white">Diễn viên 1</span>
+              Diễn viên: <span className="text-white">{movie?.actor}</span>
             </p>
             <p className="text-gray-500 ">
               Đạo diễn: <span className="text-white">Đạo diễn 1</span>
             </p>
             <p className="text-gray-500 ">
-              Thể loại: <span className="text-white">Thể loại 1</span>
+              Thể loại: <span className="text-white">{movie?.type}</span>
             </p>
           </div>
         </div>

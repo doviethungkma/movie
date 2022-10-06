@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IMovie } from "./../../../../server/src/api/v1/interfaces/movie";
+import { IMovie } from "../../interfaces/movie";
 
 interface IState {
   isShowLogin: boolean;
@@ -46,13 +46,13 @@ const commonSlice = createSlice({
     hideMenu: (state) => {
       state.isShowMenu = false;
     },
-    showVideoPopup: (state, action) => {
+    showVideoPopup: (state) => {
       state.isShowVideoPopup.status = true;
-      state.isShowVideoPopup.movie = action.payload.movie;
+      // state.isShowVideoPopup.movie = action.payload.movie;
     },
     hideVideoPopup: (state) => {
       state.isShowVideoPopup.status = false;
-      state.isShowVideoPopup.movie = {};
+      // state.isShowVideoPopup.movie = {};
     },
   },
 });
