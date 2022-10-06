@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IMovie } from "../../interface/movie";
 import movieApi from "./../../api/movieApi";
 
 const HeroVideo = () => {
   const [movie, setMovie] = useState<IMovie>();
   const getMovie = async () => {
-    const response: any = await movieApi.getById("63100c608057beaa45bb2974");
+    const response: any = await movieApi.getById("633c11ab4486b370542a25ee");
     setMovie(response.movie);
   };
 
@@ -28,6 +28,7 @@ const HeroVideo = () => {
           >
             <source src={movie?.trailer} type="video/mp4" />
           </video>
+
           <div className="w-full aspect-video top-0 left-0">
             <div className="absolute bottom-1/2 translate-y-1/2 left-[50px] max-w-sm lg:max-w-[800px]">
               <img
