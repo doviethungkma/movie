@@ -6,7 +6,7 @@ import {
   showSignup,
 } from "../../redux/features/commonSlice";
 import authApi from "./../../api/authApi";
-import { IUser } from "../../interface/auth";
+import { IUser } from "../../interfaces/auth";
 import { toast } from "react-toastify";
 
 const Login = () => {

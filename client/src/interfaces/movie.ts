@@ -8,6 +8,7 @@ export interface IEpisode {
 }
 
 export interface IMovie {
+  _id: string;
   name: string;
   nameImage: string;
   year?: string;
@@ -20,5 +21,5 @@ export interface IMovie {
   trailer: string;
   acceptable: string;
   tags?: Array<string>;
-  episodes: Array<IEpisode>;
+  episodes?: Array<IEpisode>;
 }

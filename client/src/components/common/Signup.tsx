@@ -6,7 +6,7 @@ import {
   hideSignup,
   showLogin,
 } from "../../redux/features/commonSlice";
-import { IUser } from "../../interface/auth";
+import { IUser } from "../../interfaces/auth";
 import authApi from "./../../api/authApi";
 
 const Signup = () => {

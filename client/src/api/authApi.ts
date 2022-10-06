@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-import { IUser } from "../interface/auth";
+import { IUser } from "../interfaces/auth";
 
 const authApi = {
   login: (params: IUser | undefined) => axiosClient.post("/auth/login", params),

@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination, Autoplay, Navigation, Lazy } from "swiper";
 import MovieCard from "./MovieCard";
-import { IMovie, IEpisode } from "../../interface/movie";
+import { IMovie, IEpisode } from "../../interfaces/movie";
 
 interface IProps {
   list?: Array<IMovie> | Array<IEpisode>;
@@ -54,51 +54,12 @@ const Slider = (props: IProps) => {
         }}
         className={`mySwiper ${props.class}`}
       >
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb1.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb2.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb3.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb4.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb5.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb1.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb4.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb5.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb1.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb4.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb5.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb1.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb4.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb5.webp")} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard image={require("../../assets/images/thumb1.webp")} />
-        </SwiperSlide>
+        {props.list &&
+          props.list.map((item, index) => (
+            <SwiperSlide>
+              <MovieCard item={item as IMovie} />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );
