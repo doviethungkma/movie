@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { menu } from "../../models/menu";
 
 const Menu = () => {
   const [activeItem, setActiveItem] = useState(0);
+  const navigate = useNavigate();
 
   return (
     <div className="menu w-full h-full p-7">
@@ -14,6 +16,7 @@ const Menu = () => {
               className="flex items-center justify-start gap-2 py-3 cursor-pointer"
               onClick={() => {
                 setActiveItem(index);
+                navigate(item.path);
               }}
             >
               <i
