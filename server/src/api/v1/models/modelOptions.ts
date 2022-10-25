@@ -1,4 +1,4 @@
-export const  schemaOptions = {
+export const schemaOptions = {
   toJSON: {
     virtuals: true,
   },

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LatestItem from "../components/common/LatestItem";
 import LatestReview from "../components/common/LatestReview";
 import LatestUser from "../components/common/LatestUser";
 import OverView from "../components/common/OverView";
 import TopItem from "../components/common/TopItem";
+import movieApi from "./../api/movieApi";
 
 const Home = () => {
   return (
