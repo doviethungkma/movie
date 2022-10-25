@@ -5,6 +5,7 @@ import AppLayout from "../components/layout/AppLayout";
 import AuthLayout from "../components/layout/AuthLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Movie from "../pages/Movie";
 import Signup from "./../pages/Signup";
 
 const AppRoute = () => {
@@ -16,7 +17,8 @@ const AppRoute = () => {
       </Route>
 
       <Route path="/" element={<AppLayout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Home />} />\
+        <Route path="/movie" element={<Movie />} />
       </Route>
     </Routes>
   );
