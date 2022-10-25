@@ -1,9 +1,23 @@
 import React from "react";
+import LatestItem from "../components/common/LatestItem";
+import LatestReview from "../components/common/LatestReview";
+import LatestUser from "../components/common/LatestUser";
+import OverView from "../components/common/OverView";
+import TopItem from "../components/common/TopItem";
 
 const Home = () => {
   return (
     <div>
-      <h2 className="text-red-600">Home</h2>
+      <div className="title py-4 border-b border-[rgba(255,255,255,0.05)]">
+        <h2 className="text-white tracking-widest text-[20px]">DASHBOARD</h2>
+      </div>
+      <OverView />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <TopItem />
+        <LatestItem />
+        <LatestUser />
+        <LatestReview />
+      </div>
     </div>
   );
 };
