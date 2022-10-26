@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { menu } from "../../models/menu";
+import { useDispatch } from "react-redux";
+import { toggleSideBar } from "../../redux/features/commonSlice";
 
 const Menu = () => {
   const [activeItem, setActiveItem] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <div className="menu w-full h-full p-7">
@@ -17,6 +20,7 @@ const Menu = () => {
               onClick={() => {
                 setActiveItem(index);
                 navigate(item.path);
+                dispatch(toggleSideBar());
               }}
             >
               <i
