@@ -1,16 +1,25 @@
 import { useState, useEffect } from "react";
 import movieApi from "../api/movieApi";
 import { IMovie } from "../interfaces/movie";
+import { useSelector, useDispatch } from "react-redux";
+import { rootState } from "../redux/store";
+import MoviePopup from "../components/layout/MoviePopup";
+import { showMoviePopup } from "../redux/features/commonSlice";
 
 const Movie = () => {
-  const [movies, setmovies] = useState<Array<IMovie>>([]);
   let i = 1;
+  const dispatch = useDispatch();
+  const [movies, setmovies] = useState<Array<IMovie>>([]);
+  const [movie, setMovie] = useState<IMovie>();
+
+  const isShowMoviePopup = useSelector(
+    (state: rootState) => state.common.isShowMoviePopup
+  );
 
   const getData = async () => {
     const response: any = await movieApi.getAll();
     setmovies(response.movies);
   };
-  console.log(movies);
 
   useEffect(() => {
     getData();
@@ -94,7 +103,13 @@ const Movie = () => {
                   </td>
                   <td className="px-2 py-4 text-white bg-[#212529]">
                     <div className="flex gap-3">
-                      <div className="w-[30px] h-[30px] rounded bg-red-300 flex items-center justify-center">
+                      <div
+                        className="w-[30px] h-[30px] rounded bg-red-300 flex items-center justify-center"
+                        onClick={() => {
+                          setMovie(item);
+                          dispatch(showMoviePopup());
+                        }}
+                      >
                         <i className="bx bxs-show text-lg text-red-500"></i>
                       </div>
                       <div className="w-[30px] h-[30px] rounded bg-blue-300 flex items-center justify-center">
@@ -107,6 +122,7 @@ const Movie = () => {
           </tbody>
         </table>
       </div>
+      {isShowMoviePopup && <MoviePopup item={movie as IMovie} />}
     </>
   );
 };
