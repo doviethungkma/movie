@@ -4,7 +4,9 @@ import { IMovie } from "../interfaces/movie";
 import { useSelector, useDispatch } from "react-redux";
 import { rootState } from "../redux/store";
 import MoviePopup from "../components/layout/MoviePopup";
-import { showMoviePopup } from "../redux/features/commonSlice";
+import { showMoviePopup, showAddMovie } from "../redux/features/commonSlice";
+import Button from "../components/common/Button";
+import AddMoviePopup from "./../components/layout/AddMoviePopup";
 
 const Movie = () => {
   let i = 1;
@@ -14,6 +16,9 @@ const Movie = () => {
 
   const isShowMoviePopup = useSelector(
     (state: rootState) => state.common.isShowMoviePopup
+  );
+  const isShowAddMovie = useSelector(
+    (state: rootState) => state.common.isShowAddMovie
   );
 
   const getData = async () => {
@@ -74,7 +79,13 @@ const Movie = () => {
                 Tags
               </th>
               <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Actions
+                <Button
+                  name="Add Movie"
+                  px={4}
+                  py={2}
+                  color="bg-green-500"
+                  onClick={() => dispatch(showAddMovie())}
+                />
               </th>
             </tr>
           </thead>
@@ -123,6 +134,7 @@ const Movie = () => {
         </table>
       </div>
       {isShowMoviePopup && <MoviePopup item={movie as IMovie} />}
+      {isShowAddMovie && <AddMoviePopup />}
     </>
   );
 };

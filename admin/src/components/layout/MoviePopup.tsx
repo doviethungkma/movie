@@ -58,7 +58,7 @@ const MoviePopup = (props: IProps) => {
           <ListTag name="Tags" list={props.item.tags} />
           <Paragraph name="Acceptable" text={props.item.acceptable} />
           <Paragraph name="Status" text="Active" textColor="text-green-500" />
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <Paragraph name="Description" text={props.item.description} />
           </div>
         </div>
