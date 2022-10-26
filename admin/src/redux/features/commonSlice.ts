@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface IState {
   isShowSideBar: boolean;
   isShowMoviePopup: boolean;
+  isShowAddMovie: boolean;
 }
 
 const initialState: IState = {
   isShowSideBar: false,
   isShowMoviePopup: false,
+  isShowAddMovie: false,
 };
 
 const commonSlice = createSlice({
@@ -23,11 +25,22 @@ const commonSlice = createSlice({
     hideMoviePopup: (state) => {
       state.isShowMoviePopup = false;
     },
+    showAddMovie: (state) => {
+      state.isShowAddMovie = true;
+    },
+    hideAddMovie: (state) => {
+      state.isShowAddMovie = false;
+    },
   },
 });
 
 const { reducer } = commonSlice;
-export const { toggleSideBar, showMoviePopup, hideMoviePopup } =
-  commonSlice.actions;
+export const {
+  toggleSideBar,
+  showMoviePopup,
+  hideMoviePopup,
+  showAddMovie,
+  hideAddMovie,
+} = commonSlice.actions;
 
 export default reducer;
