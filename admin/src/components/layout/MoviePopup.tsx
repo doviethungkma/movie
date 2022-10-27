@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { IMovie } from "../../interfaces/movie";
-import { hideMoviePopup } from "../../redux/features/commonSlice";
+import { hideMoviePopup } from "../../redux/features/movieSlice";
 import Button from "../common/Button";
 import ListTag from "../common/ListTag";
 import Overlay from "../common/Overlay";
@@ -57,8 +57,14 @@ const MoviePopup = (props: IProps) => {
           <ListTag name="Actor" list={props.item.actor} />
           <ListTag name="Tags" list={props.item.tags} />
           <Paragraph name="Acceptable" text={props.item.acceptable} />
-          <Paragraph name="Status" text="Active" textColor="text-green-500" />
-          <div className="col-span-2">
+          <Paragraph
+            name="Status"
+            text={props.item.status}
+            textColor={
+              props.item.status === "active" ? "text-green-500" : "text-red-500"
+            }
+          />
+          <div className="md:col-span-2">
             <Paragraph name="Description" text={props.item.description} />
           </div>
         </div>

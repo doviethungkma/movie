@@ -8,11 +8,11 @@ const ListTag = (props: IProps) => {
     <div>
       <h4 className="text-white">{props.name}</h4>
       {props.list && props.list.length > 0 ? (
-        <div className="p-2 bg-[#2b2b31] rounded-xl">
+        <div className="p-2 bg-[#2b2b31] rounded-xl flex flex-wrap gap-2">
           {props.list.map((item, index) => (
             <span
               key={index}
-              className="w-auto mr-2 bg-gray-600 py-1 px-2 text-xs text-white rounded-xl"
+              className="w-auto bg-gray-600 py-1 px-2 text-xs text-white rounded-xl"
             >
               {item}
             </span>

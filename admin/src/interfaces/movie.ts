@@ -8,9 +8,9 @@ export interface IEpisode {
 }
 
 export interface IMovie {
-  _id: string;
+  _id?: string;
   name: string;
-  nameImage: string;
+  nameImage?: string;
   year?: string;
   country?: string;
   description?: string;
@@ -18,8 +18,9 @@ export interface IMovie {
   type?: Array<string>;
   totalEp: number;
   thumb: string;
-  trailer: string;
+  trailer?: string;
   acceptable: string;
   tags?: Array<string>;
   episodes?: Array<IEpisode>;
+  status?: string;
 }

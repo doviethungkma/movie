@@ -2,12 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IState {
   isShowSideBar: boolean;
-  isShowMoviePopup: boolean;
 }
 
 const initialState: IState = {
   isShowSideBar: false,
-  isShowMoviePopup: false,
 };
 
 const commonSlice = createSlice({
@@ -17,17 +15,10 @@ const commonSlice = createSlice({
     toggleSideBar: (state) => {
       state.isShowSideBar = !state.isShowSideBar;
     },
-    showMoviePopup: (state) => {
-      state.isShowMoviePopup = true;
-    },
-    hideMoviePopup: (state) => {
-      state.isShowMoviePopup = false;
-    },
   },
 });
 
 const { reducer } = commonSlice;
-export const { toggleSideBar, showMoviePopup, hideMoviePopup } =
-  commonSlice.actions;
+export const { toggleSideBar } = commonSlice.actions;
 
 export default reducer;
