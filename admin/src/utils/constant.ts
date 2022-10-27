@@ -19,11 +19,11 @@ export const listAcceptableValue = [
 
 export const listMovieStatus = [
   {
-    name: "Disable",
-    value: "disable",
+    name: "Active",
+    value: "active",
   },
   {
-    name: "Enable",
-    value: "enable",
+    name: "Inactive",
+    value: "inactive",
   },
 ];

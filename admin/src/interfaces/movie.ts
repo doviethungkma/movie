@@ -10,7 +10,7 @@ export interface IEpisode {
 export interface IMovie {
   _id?: string;
   name: string;
-  nameImage: string;
+  nameImage?: string;
   year?: string;
   country?: string;
   description?: string;
@@ -22,4 +22,5 @@ export interface IMovie {
   acceptable: string;
   tags?: Array<string>;
   episodes?: Array<IEpisode>;
+  status?: string;
 }
