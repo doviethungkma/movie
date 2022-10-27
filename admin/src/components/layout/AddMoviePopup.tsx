@@ -104,7 +104,9 @@ const AddMoviePopup = () => {
           <Input
             name="totalEp"
             placeholder="Total Ep"
-            onChange={handleChange}
+            onChange={(e: any) =>
+              setMovie({ ...movie, totalEp: parseInt(e.target.value) })
+            }
           />
           <Input name="thumb" placeholder="Thumb" onChange={handleChange} />
           <Input name="trailer" placeholder="Trailer" onChange={handleChange} />
