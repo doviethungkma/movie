@@ -8,12 +8,15 @@ interface IProps {
   height?: string;
   disabled?: boolean;
   onChange?: any;
+  noTitle?: boolean;
 }
 
 const Input = (props: IProps) => {
   return (
     <div className="w-full">
-      <h4 className="text-white mb-2 capitalize">{props.name}</h4>
+      {!props.noTitle && (
+        <h4 className="text-white mb-2 capitalize">{props.name}</h4>
+      )}
       <input
         type="text"
         name={props.name}

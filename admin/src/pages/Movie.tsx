@@ -2,21 +2,30 @@ import { useEffect, useState } from "react";
 import Button from "../components/common/Button";
 import AddMoviePopup from "../components/layout/AddMoviePopup";
 import EditMoviePopup from "../components/layout/EditMoviePopup";
+import EpisodePopup from "../components/layout/EpisodePopup";
 import MoviePopup from "../components/layout/MoviePopup";
 import { IMovie } from "../interfaces/movie";
 import {
   getAllMovie,
+  getMovieById,
   showAddMovie,
   showEditMovie,
+  showEpisodePopup,
   showMoviePopup,
 } from "../redux/features/movieSlice";
 import { useAppDispatch, useAppSelector } from "./../hooks/useTypedSelector";
+import { IEpisode } from "./../interfaces/movie";
 
 const Movie = () => {
   let i = 1;
   const dispatch = useAppDispatch();
-  const { movies, isShowMoviePopup, isShowAddMovie, isShowEditMovie } =
-    useAppSelector((state) => state.movie);
+  const {
+    movies,
+    isShowMoviePopup,
+    isShowAddMovie,
+    isShowEditMovie,
+    isShowEpisodePopup,
+  } = useAppSelector((state) => state.movie);
 
   const [movie, setMovie] = useState<IMovie>();
 
@@ -71,7 +80,7 @@ const Movie = () => {
                 Acceptable
               </th>
               <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Tags
+                Current Ep
               </th>
               <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
                 <Button
@@ -89,7 +98,13 @@ const Movie = () => {
               movies.map((item, index) => (
                 <tr key={index}>
                   <td className=" px-2 py-4 text-white bg-[#212529]">{i++}</td>
-                  <td className=" px-2 py-4 text-white bg-[#212529]">
+                  <td
+                    className=" px-2 py-4 text-white cursor-pointer hover:text-green-500 transition-all bg-[#212529]"
+                    onClick={() => {
+                      setMovie(item);
+                      dispatch(showMoviePopup());
+                    }}
+                  >
                     {item.name}
                   </td>
                   <td className=" px-2 py-4 text-white bg-[#212529]">
@@ -104,8 +119,14 @@ const Movie = () => {
                   <td className=" px-2 py-4 text-white bg-[#212529]">
                     {item.acceptable}
                   </td>
-                  <td className=" px-2 py-4 text-white bg-[#212529]">
-                    {item.tags}
+                  <td
+                    className=" px-2 py-4 bg-[#212529] text-blue-500 cursor-pointer hover:text-green-500 transition-all"
+                    onClick={() => {
+                      dispatch(getMovieById(item._id as string));
+                      dispatch(showEpisodePopup());
+                    }}
+                  >
+                    {item.episodes?.length}
                   </td>
                   <td className="px-2 py-4 text-white bg-[#212529]">
                     <div className="flex gap-3">
@@ -137,6 +158,7 @@ const Movie = () => {
       {isShowMoviePopup && <MoviePopup item={movie as IMovie} />}
       {isShowAddMovie && <AddMoviePopup />}
       {isShowEditMovie && <EditMoviePopup item={movie as IMovie} />}
+      {isShowEpisodePopup && <EpisodePopup />}
     </>
   );
 };
