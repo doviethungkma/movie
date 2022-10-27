@@ -1,34 +1,29 @@
-import { useState, useEffect } from "react";
-import movieApi from "../api/movieApi";
-import { IMovie } from "../interfaces/movie";
-import { useSelector, useDispatch } from "react-redux";
-import { rootState } from "../redux/store";
-import MoviePopup from "../components/layout/MoviePopup";
-import { showMoviePopup, showAddMovie } from "../redux/features/commonSlice";
+import { useEffect, useState } from "react";
 import Button from "../components/common/Button";
-import AddMoviePopup from "./../components/layout/AddMoviePopup";
+import AddMoviePopup from "../components/layout/AddMoviePopup";
+import EditMoviePopup from "../components/layout/EditMoviePopup";
+import MoviePopup from "../components/layout/MoviePopup";
+import { IMovie } from "../interfaces/movie";
+import {
+  getAllMovie,
+  showAddMovie,
+  showEditMovie,
+  showMoviePopup,
+} from "../redux/features/movieSlice";
+import { useAppDispatch, useAppSelector } from "./../hooks/useTypedSelector";
 
 const Movie = () => {
   let i = 1;
-  const dispatch = useDispatch();
-  const [movies, setmovies] = useState<Array<IMovie>>([]);
+  const dispatch = useAppDispatch();
+  const { movies, isShowMoviePopup, isShowAddMovie, isShowEditMovie } =
+    useAppSelector((state) => state.movie);
+
   const [movie, setMovie] = useState<IMovie>();
 
-  const isShowMoviePopup = useSelector(
-    (state: rootState) => state.common.isShowMoviePopup
-  );
-  const isShowAddMovie = useSelector(
-    (state: rootState) => state.common.isShowAddMovie
-  );
-
-  const getData = async () => {
-    const response: any = await movieApi.getAll();
-    setmovies(response.movies);
-  };
-
   useEffect(() => {
-    getData();
-  }, []);
+    dispatch(getAllMovie());
+  }, [dispatch]);
+
   return (
     <>
       <div className="w-full h-[66px] border-b border-thin">
@@ -123,7 +118,13 @@ const Movie = () => {
                       >
                         <i className="bx bxs-show text-lg text-red-500"></i>
                       </div>
-                      <div className="w-[30px] h-[30px] rounded bg-blue-300 flex items-center justify-center">
+                      <div
+                        className="w-[30px] h-[30px] rounded bg-blue-300 flex items-center justify-center"
+                        onClick={() => {
+                          setMovie(item);
+                          dispatch(showEditMovie());
+                        }}
+                      >
                         <i className="bx bx-edit-alt text-lg text-blue-500"></i>
                       </div>
                     </div>
@@ -135,6 +136,7 @@ const Movie = () => {
       </div>
       {isShowMoviePopup && <MoviePopup item={movie as IMovie} />}
       {isShowAddMovie && <AddMoviePopup />}
+      {isShowEditMovie && <EditMoviePopup item={movie as IMovie} />}
     </>
   );
 };
