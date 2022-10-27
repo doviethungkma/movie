@@ -24,7 +24,7 @@ const MoviePopup = (props: IProps) => {
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50">
       <Overlay />
-      <div className="popup__content w-full h-full max-w-[90%] max-h-[90%] lg:max-w-[70%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md bg-[#212529]  overflow-y-scroll">
+      <div className="popup__content w-full h-full max-w-[90%] max-h-[90%] lg:max-w-[70%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md bg-[#212529]  overflow-y-scroll no-scrollbar">
         <PopupTitle
           title="Movie Detail"
           onClose={() => dispatch(hideMoviePopup())}

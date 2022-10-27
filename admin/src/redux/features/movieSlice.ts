@@ -6,14 +6,18 @@ interface IState {
   isShowMoviePopup: boolean;
   isShowAddMovie: boolean;
   isShowEditMovie: boolean;
+  isShowEpisodePopup: boolean;
   movies: Array<IMovie>;
+  movie: IMovie | undefined;
 }
 
 const initialState: IState = {
   isShowMoviePopup: false,
   isShowAddMovie: false,
   isShowEditMovie: false,
+  isShowEpisodePopup: false,
   movies: [],
+  movie: undefined,
 };
 
 export const getAllMovie = createAsyncThunk(
@@ -28,11 +32,15 @@ export const getAllMovie = createAsyncThunk(
   }
 );
 
-export const editMovie = createAsyncThunk(
-  "/movie/editMovie",
-  async (id, thunkApi) => {
+export const getMovieById = createAsyncThunk(
+  "/movie/getMovieById",
+  async (id: string, thunkApi) => {
     try {
-    } catch (error) {}
+      const response: any = await movieApi.getById(id);
+      return response.movie;
+    } catch (error: any) {
+      throw thunkApi.rejectWithValue(error.message);
+    }
   }
 );
 
@@ -58,6 +66,12 @@ const movieSlice = createSlice({
     hideEditMovie: (state) => {
       state.isShowEditMovie = false;
     },
+    showEpisodePopup: (state) => {
+      state.isShowEpisodePopup = true;
+    },
+    hideEpisodePopup: (state) => {
+      state.isShowEpisodePopup = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -68,6 +82,15 @@ const movieSlice = createSlice({
     );
     builder.addCase(getAllMovie.rejected, (state) => {
       state.movies = [];
+    });
+    builder.addCase(
+      getMovieById.fulfilled,
+      (state, action: PayloadAction<IMovie>) => {
+        state.movie = action.payload;
+      }
+    );
+    builder.addCase(getMovieById.rejected, (state) => {
+      state.movie = undefined;
     });
   },
 });
@@ -80,6 +103,8 @@ export const {
   hideAddMovie,
   showEditMovie,
   hideEditMovie,
+  showEpisodePopup,
+  hideEpisodePopup,
 } = movieSlice.actions;
 
 export default reducer;
