@@ -5,6 +5,7 @@ import cryptojs from "crypto-js";
 import User from "../models/user";
 import jsonwebtoken from "jsonwebtoken";
 import { HTTP_STATUS } from "../utils/constant";
+import { body } from "express-validator";
 
 export const register = async (req: Request, res: Response) => {
   let { username, password, email } = req.body;
@@ -101,6 +102,58 @@ export const login = async (req: Request, res: Response) => {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       status: "error",
       error: error.message,
+    });
+  }
+};
+
+export const getAllUser = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find();
+    if (users) {
+      res.status(HTTP_STATUS.SUCCESS).json({
+        status: "success",
+        users,
+      });
+    } else {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Get all users failed",
+      });
+    }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      error: error.message,
+    });
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const data = req.body;
+  try {
+    const userUpdated = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: data,
+      },
+      {
+        new: true,
+      }
+    );
+    if (!userUpdated)
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ status: "error", message: "Update user failed" });
+
+    res.status(HTTP_STATUS.SUCCESS).json({
+      status: "success",
+      user: userUpdated,
+    });
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
     });
   }
 };

@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Movie from "../pages/Movie";
 import Signup from "./../pages/Signup";
+import User from "./../pages/User";
 
 const AppRoute = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoute = () => {
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />\
         <Route path="/movie" element={<Movie />} />
+        <Route path="/user" element={<User />} />
       </Route>
     </Routes>
   );

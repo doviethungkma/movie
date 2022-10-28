@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
     },
     package: {
       type: String,
-      default: "normal", //normal, vip, hbo, sport, all
+      default: "normal", // vip, hbo, sport, all
     },
     packageStart: {
       type: Date,
