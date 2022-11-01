@@ -15,9 +15,19 @@ import {
 } from "../redux/features/movieSlice";
 import { useAppDispatch, useAppSelector } from "./../hooks/useTypedSelector";
 import { IEpisode } from "./../interfaces/movie";
+import TableTitle from "./../components/common/TableTitle";
 
 const Movie = () => {
   let i = 1;
+  const listTableTitle = [
+    "ID",
+    "Name",
+    "Thumb",
+    "Total Ep",
+    "Year",
+    "Acceptable",
+    "Current Ep",
+  ];
   const dispatch = useAppDispatch();
   const {
     movies,
@@ -61,27 +71,7 @@ const Movie = () => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                ID
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Name
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Thumb
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Total ep
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Year
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Acceptable
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Current Ep
-              </th>
+              <TableTitle listTitle={listTableTitle} />
               <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
                 <Button
                   name="Add Movie"
