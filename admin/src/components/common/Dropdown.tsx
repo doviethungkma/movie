@@ -6,7 +6,7 @@ interface IList {
 }
 
 interface IProps {
-  title: string;
+  title?: string;
   list: Array<IList>;
   onItemClick: any;
   selectedItem?: string;
@@ -17,7 +17,7 @@ const Dropdown = (props: IProps) => {
 
   return (
     <div className="w-full relative">
-      <h4 className="text-white">{props.title}</h4>
+      <h4 className="text-white">{props.title && props.title}</h4>
       <div
         className="w-full flex items-center justify-between p-2 bg-[#2b2b31] text-gray-400 cursor-pointer relative transition-all"
         onClick={() => setIsShowMenu(!isShowMenu)}

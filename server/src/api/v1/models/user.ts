@@ -33,16 +33,20 @@ const userSchema = new mongoose.Schema(
       require: true,
       default: "user",
     },
-    package: {
-      type: String,
-      default: "normal", //normal, vip, hbo, sport, all
-    },
-    packageStart: {
-      type: Date,
-    },
-    packageEnd: {
-      type: Date,
-    },
+    package: [
+      {
+        type: {
+          type: String,
+          default: "normal",
+        }, // vip, hbo, sport, all
+        startDate: {
+          type: Date,
+        },
+        endDate: {
+          type: Date,
+        },
+      },
+    ],
     watching: [
       {
         id: {

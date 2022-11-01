@@ -27,3 +27,26 @@ export const listMovieStatus = [
     value: "inactive",
   },
 ];
+
+export const listPackage = [
+  {
+    name: "1 month",
+    value: 1,
+  },
+  {
+    name: "3 month",
+    value: 3,
+  },
+  {
+    name: "6 month",
+    value: 6,
+  },
+  {
+    name: "9 month",
+    value: 9,
+  },
+  {
+    name: "12 month",
+    value: 12,
+  },
+];

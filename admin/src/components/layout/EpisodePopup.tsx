@@ -17,7 +17,7 @@ const EpisodePopup = () => {
   const dispatch = useAppDispatch();
   const [isShowAdd, setIsShowAdd] = useState<boolean>(false);
   const { movie } = useAppSelector((state) => state.movie);
-  console.log(movie);
+  console.log(movie?.episodes);
 
   const [episode, setEpisode] = useState<IEpisode>({
     id: 1,

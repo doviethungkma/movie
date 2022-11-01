@@ -26,12 +26,18 @@ export const menu: Array<IMenu> = [
   },
   {
     id: 4,
+    name: "Package",
+    path: "/package",
+    icon: "bx bxs-package",
+  },
+  {
+    id: 5,
     name: "Comments",
     path: "/comment",
     icon: "bx bxs-comment-detail",
   },
   {
-    id: 5,
+    id: 6,
     name: "Reviews",
     path: "/review",
     icon: "bx bxs-star",
