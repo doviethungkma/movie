@@ -6,6 +6,7 @@ import User from "../models/user";
 import jsonwebtoken from "jsonwebtoken";
 import { HTTP_STATUS } from "../utils/constant";
 import { body } from "express-validator";
+import user from "../models/user";
 
 export const register = async (req: Request, res: Response) => {
   let { username, password, email } = req.body;
@@ -149,6 +150,67 @@ export const updateUser = async (req: Request, res: Response) => {
     res.status(HTTP_STATUS.SUCCESS).json({
       status: "success",
       user: userUpdated,
+    });
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};
+
+export const renewPackage = async (req: Request, res: Response) => {
+  const { userId, packageId, packageMonth } = req.params;
+  try {
+    const currentDate = new Date();
+
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentDay = currentDate.getDate();
+    const currentHour = currentDate.getUTCHours();
+    const currentMinutes = currentDate.getMinutes();
+    const currentSecond = currentDate.getSeconds();
+
+    const newEndDate = `${
+      currentMonth + parseInt(packageMonth) > 12 ? currentYear + 1 : currentYear
+    }-${
+      currentMonth + parseInt(packageMonth) > 12
+        ? (currentMonth + parseInt(packageMonth)) % 12 < 10
+          ? "0" + ((currentMonth + parseInt(packageMonth)) % 12)
+          : (currentMonth + parseInt(packageMonth)) % 12
+        : currentMonth + parseInt(packageMonth)
+    }-${currentDay < 10 ? "0" + currentDay : currentDay}T${
+      currentHour < 10 ? "0" + currentHour : currentHour
+    }:${currentMinutes < 10 ? "0" + currentMinutes : currentMinutes}:${
+      currentSecond < 10 ? "0" + currentSecond : currentSecond
+    }+00:00`;
+    console.log(packageId);
+
+    const response = await User.findOneAndUpdate(
+      {
+        _id: userId,
+        "package._id": packageId,
+      },
+      {
+        $set: {
+          "package.$.startDate": currentDate,
+          "package.$.endDate": newEndDate,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    console.log(response);
+
+    if (!response)
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ status: "error", message: "Package renewal failed" });
+
+    res.status(HTTP_STATUS.SUCCESS).json({
+      status: "success",
+      newPackage: response.package,
     });
   } catch (error: any) {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({

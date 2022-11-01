@@ -1,7 +1,8 @@
 import React from "react";
 
 interface IProps {
-  name: string;
+  name?: string;
+  type?: string;
   placeholder?: string;
   value?: string;
   width?: string;
@@ -18,8 +19,8 @@ const Input = (props: IProps) => {
         <h4 className="text-white mb-2 capitalize">{props.name}</h4>
       )}
       <input
-        type="text"
-        name={props.name}
+        type={props.type ? props.type : "text"}
+        name={props.name && props.name}
         onChange={props.onChange}
         placeholder={props.placeholder}
         value={props.value}

@@ -5,16 +5,27 @@ import { useSelector } from "react-redux";
 import Button from "../components/common/Button";
 import userApi from "./../api/user";
 import { toast } from "react-toastify";
+import TableTitle from "./../components/common/TableTitle";
 
 const User = () => {
   let i = 1;
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((state) => state.user);
-  console.log(users);
+
+  const listTableTitle = [
+    "ID",
+    "Username",
+    "Name",
+    "Phone",
+    "Email",
+    "Role",
+    "Status",
+    "Action",
+  ];
 
   useEffect(() => {
     dispatch(getAllUser());
-  }, []);
+  }, [dispatch]);
 
   const toggleUserStatus = async (id: string, currenStatus: string) => {
     try {
@@ -37,7 +48,7 @@ const User = () => {
       <div className="w-full h-[66px] border-b border-thin">
         <div className="title flex items-center justify-between">
           <div className="h-full flex items-center gap-2 text-white">
-            <h4 className="text-[30px]">users</h4>
+            <h4 className="text-[30px]">Users</h4>
             <p className="text-[14px] text-gray-500 pt-2">14,452 Total</p>
           </div>
           <div className="h-full flex items-center gap-4">
@@ -60,30 +71,7 @@ const User = () => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                ID
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Username
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Name
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Phone
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Email
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Role
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Status
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Action
-              </th>
+              <TableTitle listTitle={listTableTitle} />
             </tr>
           </thead>
           <tbody>

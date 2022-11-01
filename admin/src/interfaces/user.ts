@@ -1,3 +1,10 @@
+export interface IPackage {
+  _id?: string;
+  type?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
 export interface IUser {
   _id: string;
   username?: string;
@@ -6,7 +13,5 @@ export interface IUser {
   name?: string;
   phone?: string;
   role?: string;
-  package?: string;
-  packageStart?: string;
-  packageEnd?: string;
+  package?: Array<IPackage>;
 }
