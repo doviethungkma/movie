@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       require: true,
-      default: "user",
+      default: "user", //user: normal user - using in client. admin: admin user - full access. mod: can't access usermanager and package manager
     },
     package: [
       {

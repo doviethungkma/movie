@@ -108,7 +108,9 @@ export const login = async (req: Request, res: Response) => {
 
 export const getAllUser = async (req: Request, res: Response) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select(
+      "_id username status role package watching"
+    );
     if (users) {
       res.status(HTTP_STATUS.SUCCESS).json({
         status: "success",
@@ -118,6 +120,31 @@ export const getAllUser = async (req: Request, res: Response) => {
       res.status(HTTP_STATUS.BAD_REQUEST).json({
         status: "failed",
         msg: "Get all users failed",
+      });
+    }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      error: error.message,
+    });
+  }
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).select(
+      "_id username status role package watching"
+    );
+    if (user) {
+      res.status(HTTP_STATUS.SUCCESS).json({
+        status: "success",
+        user,
+      });
+    } else {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Get user failed",
       });
     }
   } catch (error: any) {

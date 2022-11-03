@@ -1,7 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Avatar = () => {
+interface IProps {
+  username?: string;
+  role?: string;
+}
+
+const Avatar = (props: IProps) => {
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("token");
@@ -19,8 +24,8 @@ const Avatar = () => {
         />
       </div>
       <div className="text-white flex-grow ml-3">
-        <p className="text-[10px] text-gray-400">Admin</p>
-        <h4 className="text-[16px] font-bold">John Doe</h4>
+        <p className="text-[10px] text-gray-400 capitalize">{props.role}</p>
+        <h4 className="text-[16px] font-bold">{props.username}</h4>
       </div>
       <div className="w-10 h-10 rounded bg-[rgba(255,255,255,0.05)] flex items-center justify-center cursor-pointer">
         <img
