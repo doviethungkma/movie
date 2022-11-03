@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "./../../interfaces/user";
 import userApi from "./../../api/user";
+import { IAuth } from "./../../interfaces/auth";
 
 interface IState {
   users: Array<IUser>;
+  auth: IAuth;
 }
 
 const initialState: IState = {
   users: [],
+  auth: { username: "", password: "" },
 };
 
 export const getAllUser = createAsyncThunk(

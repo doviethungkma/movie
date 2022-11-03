@@ -5,11 +5,26 @@ import Avatar from "./Avatar";
 import Menu from "./Menu";
 import { useNavigate } from "react-router-dom";
 import { toggleSideBar } from "../../redux/features/commonSlice";
+import userApi from "./../../api/user";
+
+interface IUserState {
+  username?: string;
+  role?: string;
+  status?: string;
+  id?: string;
+}
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [user, setUser] = useState({
+    username: "",
+    role: "",
+    status: "",
+    id: "",
+  });
+  console.log(user);
 
   const isShowSidebar = useSelector(
     (state: rootState) => state.common.isShowSideBar
@@ -22,6 +37,15 @@ const Sidebar = () => {
 
     window.addEventListener("resize", handleResize);
   });
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userId = localStorage.getItem("id");
+      const response: any = await userApi.getById(userId as string);
+      setUser(response.user);
+    };
+    getUser();
+  }, []);
 
   return (
     <>
@@ -36,8 +60,8 @@ const Sidebar = () => {
           >
             VIE<span className="text-green-500">ON</span>
           </div>
-          <Avatar />
-          <Menu />
+          <Avatar username={user.username} role={user.role} />
+          <Menu accessRole={user.role} />
         </div>
       )}
     </>
