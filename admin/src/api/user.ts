@@ -3,6 +3,7 @@ import { IAuth } from "./../interfaces/auth";
 
 const userApi = {
   getAll: () => axiosClient.get("/user"),
+  getById: (id: string) => axiosClient.get(`/user/${id}`),
   updateUser: (id: string, params: any) =>
     axiosClient.put(`/user/${id}`, params),
   updateUserPackage: (

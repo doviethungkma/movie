@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/useTypedSelector";
 import { getAllUser } from "./../redux/features/userSlice";
 import { useSelector } from "react-redux";
@@ -6,11 +6,28 @@ import Button from "../components/common/Button";
 import userApi from "./../api/user";
 import { toast } from "react-toastify";
 import TableTitle from "./../components/common/TableTitle";
+import Dropdown from "../components/common/Dropdown";
+import { listRole } from "./../utils/constant";
+import { stringify } from "querystring";
+
+interface IRoleState {
+  id: string;
+  name: string;
+  value: string;
+}
 
 const User = () => {
   let i = 1;
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((state) => state.user);
+  const [isShowChangeRole, setIsShowChangeRole] = useState<boolean>(false);
+  const [role, setRole] = useState<IRoleState>({
+    id: "",
+    name: "",
+    value: "",
+  });
+
+  console.log(role);
 
   const listTableTitle = [
     "ID",
@@ -29,7 +46,7 @@ const User = () => {
 
   const toggleUserStatus = async (id: string, currenStatus: string) => {
     try {
-      const response = await userApi.updateUser(id, {
+      await userApi.updateUser(id, {
         status: currenStatus === "active" ? "inactive" : "active",
       });
       toast.success("Change user status successfully", {
@@ -41,6 +58,31 @@ const User = () => {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
+  };
+
+  const updateUserRole = async () => {
+    try {
+      await userApi.updateUser(role.id, {
+        role: role.value,
+      });
+      toast.success("Change user role successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(getAllUser());
+      setIsShowChangeRole(false);
+    } catch (error) {
+      toast.error("Change user role failed", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
+  const handleItemClick = (e: any) => {
+    setRole({
+      ...role,
+      name: e.target.innerText,
+      value: e.target.dataset.value,
+    });
   };
 
   return (
@@ -91,8 +133,32 @@ const User = () => {
                   <td className=" px-2 py-4 text-white bg-[#212529]">
                     {item.email}
                   </td>
-                  <td className=" px-2 py-4 text-white bg-[#212529]">
-                    {item.role}
+                  <td className=" px-2 py-4 text-blue-500 bg-[#212529] hover:text-green-500 cursor-pointer transition-all w-[20%]">
+                    {isShowChangeRole && role.id === item._id ? (
+                      <div className="flex gap-2">
+                        <Dropdown
+                          list={listRole}
+                          selectedItem={role.name}
+                          onItemClick={handleItemClick}
+                        />
+                        <Button
+                          name="Save"
+                          px={4}
+                          py={2}
+                          color="bg-green-500"
+                          onClick={updateUserRole}
+                        />
+                      </div>
+                    ) : (
+                      <p
+                        onClick={() => {
+                          setRole({ ...role, id: item._id });
+                          setIsShowChangeRole(true);
+                        }}
+                      >
+                        {item.role}
+                      </p>
+                    )}
                   </td>
                   <td
                     className={`px-2 py-4 text-white bg-[#212529] ${

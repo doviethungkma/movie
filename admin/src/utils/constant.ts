@@ -27,6 +27,20 @@ export const listMovieStatus = [
     value: "inactive",
   },
 ];
+export const listRole = [
+  {
+    name: "Admin",
+    value: "admin",
+  },
+  {
+    name: "Mod",
+    value: "mod",
+  },
+  {
+    name: "User",
+    value: "user",
+  },
+];
 
 export const listPackage = [
   {
@@ -50,3 +64,9 @@ export const listPackage = [
     value: 12,
   },
 ];
+
+export const ROLE = {
+  ADMIN: "admin",
+  MOD: "mod",
+  USER: "user",
+};

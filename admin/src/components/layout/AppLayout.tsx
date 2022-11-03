@@ -6,7 +6,11 @@ import userApi from "../../api/user";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
-const AppLayout = () => {
+interface ILayoutProps {
+  allowedRole?: string[];
+}
+
+const AppLayout = (props: ILayoutProps) => {
   const navigate = useNavigate();
 
   const checkAuth = async () => {
@@ -15,10 +19,12 @@ const AppLayout = () => {
     //check token is valid
     try {
       const response: any = await userApi.verifyToken();
-      console.log(response);
       if (response.status === "inactive") {
         toast.error("User is blocked", { position: toast.POSITION.TOP_RIGHT });
         navigate("/login");
+      }
+      if (!props.allowedRole?.includes(response.role)) {
+        navigate("/notfound");
       }
     } catch (error) {
       console.log("catch");

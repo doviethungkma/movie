@@ -22,8 +22,7 @@ const Login = () => {
   const loginHandle = async () => {
     try {
       const response: any = await userApi.login(user);
-      console.log(response.user.role);
-      if (response.user.role !== "admin") {
+      if (response.user.role === "user") {
         navigate("/login");
         toast.error("Your user cannot access this page", {
           position: toast.POSITION.TOP_RIGHT,
