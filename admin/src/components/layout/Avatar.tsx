@@ -1,6 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Avatar = () => {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    navigate("/login");
+  };
+
   return (
     <div className="avatar w-full h-[80px] px-7 py-5 flex justify-between border-b border-thin">
       <div className="w-10 h-10 rounded-full bg-white">
@@ -18,7 +26,8 @@ const Avatar = () => {
         <img
           src={require("../../assets/icons/logout.svg").default}
           alt=""
-          className="w-[70%]"
+          className="w-[70%] cursor-pointer"
+          onClick={logout}
         />
       </div>
     </div>

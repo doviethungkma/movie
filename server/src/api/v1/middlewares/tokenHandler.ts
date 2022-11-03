@@ -1,5 +1,5 @@
 import jsonwebtoken, { Jwt, JwtPayload } from "jsonwebtoken";
-const User = require("../models/user.ts");
+import User from "../models/user";
 import { HTTP_STATUS } from "../utils/constant";
 import { Request, Response, NextFunction } from "express";
 
@@ -24,7 +24,7 @@ export const tokenDecode = (req: Request) => {
 };
 
 export const verifyToken = async (
-  req: Request,
+  req: any,
   res: Response,
   next: NextFunction
 ) => {
@@ -34,7 +34,7 @@ export const verifyToken = async (
     const user = await User.findById(tokenDecoded.id);
     if (!user)
       return res.status(HTTP_STATUS.UNAUTHENTICATED).json("Unauthenticated");
-    // req.user = user;
+    req.user = user;
     next();
   } else {
     res.status(HTTP_STATUS.UNAUTHENTICATED).json("Unauthenticated");

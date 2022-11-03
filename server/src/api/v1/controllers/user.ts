@@ -1,12 +1,8 @@
-import express from "express";
-import mongoose from "mongoose";
-import { Request, Response } from "express";
 import cryptojs from "crypto-js";
-import User from "../models/user";
+import { Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
+import User from "../models/user";
 import { HTTP_STATUS } from "../utils/constant";
-import { body } from "express-validator";
-import user from "../models/user";
 
 export const register = async (req: Request, res: Response) => {
   let { username, password, email } = req.body;
@@ -35,6 +31,8 @@ export const register = async (req: Request, res: Response) => {
       user: {
         id: newUser._id,
         username: newUser.username,
+        role: newUser.role,
+        status: newUser.status,
       },
       token,
     });
@@ -62,14 +60,6 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
-    //check user inactive
-    if (user.status === "inactive") {
-      return res.status(HTTP_STATUS.SUCCESS).json({
-        status: "error",
-        message: "Your account is inactive",
-      });
-    }
-
     const decryptedPassword = cryptojs.AES.decrypt(
       user.password as string,
       process.env.PASSWORD_SECRET_KEY as string
@@ -79,6 +69,14 @@ export const login = async (req: Request, res: Response) => {
       return res.status(HTTP_STATUS.SUCCESS).json({
         status: "error",
         message: "Invalid username or password",
+      });
+    }
+
+    //check user inactive
+    if (user.status === "inactive") {
+      return res.status(HTTP_STATUS.SUCCESS).json({
+        status: "error",
+        message: "Your account is inactive",
       });
     }
 
@@ -96,6 +94,7 @@ export const login = async (req: Request, res: Response) => {
         id: user._id,
         username: user.username,
         role: user.role,
+        status: user.status,
       },
       token: token,
     });

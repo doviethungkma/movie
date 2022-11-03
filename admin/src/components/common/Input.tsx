@@ -14,7 +14,7 @@ interface IProps {
 
 const Input = (props: IProps) => {
   return (
-    <div className="w-full">
+    <div className="">
       {!props.noTitle && (
         <h4 className="text-white mb-2 capitalize">{props.name}</h4>
       )}
