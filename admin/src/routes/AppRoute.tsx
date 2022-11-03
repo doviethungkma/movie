@@ -17,7 +17,6 @@ const AppRoute = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Route>
-
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />\
         <Route path="/movie" element={<Movie />} />
