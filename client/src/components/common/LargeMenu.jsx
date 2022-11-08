@@ -7,7 +7,7 @@ const LargeMenu = () => {
       {menu.map((item, index) => (
         <div className="flex gap-2 cursor-pointer " key={item.id}>
           <img src={item.icon} alt={item.icon} />
-          <p className="text-white hover:text-gray-400 transition-all">
+          <p className="text-white hover:text-green-500 transition-all">
             {item.name}
           </p>
         </div>

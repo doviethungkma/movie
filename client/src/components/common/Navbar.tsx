@@ -3,9 +3,11 @@ import { useDispatch } from "react-redux";
 import { showLogin, toggleMenu } from "../../redux/features/commonSlice";
 import LargeMenu from "./LargeMenu";
 import SmallMenu from "./SmallMenu";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -23,9 +25,9 @@ const Navbar = () => {
       className="fixed flex justify-between items-center w-full h-14 px-4 lg:px-14 border-b border-b-[#ffffff1A] bg-transparent z-50"
       id="navbar"
     >
-      <div className="flex items-center h-full gap-7">
+      <div className="flex items-center h-full gap-7 cursor-pointer">
         <i
-          className="bx bx-menu text-[24px] text-white cursor-pointer hover:text-gray-400 transition-all sm:hidden"
+          className="bx bx-menu text-[24px] text-white cursor-pointer hover:text-green-500 transition-all sm:hidden"
           onClick={() => {
             dispatch(toggleMenu());
           }}
@@ -34,14 +36,15 @@ const Navbar = () => {
           src={require("../../assets/icons/logo.svg").default}
           alt="logo"
           className="h-7"
+          onClick={() => navigate("/")}
         />
         {windowWidth > 640 ? <LargeMenu /> : <SmallMenu />}
       </div>
       <div className="flex gap-4">
-        <i className="bx bx-search text-[24px] text-white cursor-pointer hover:text-gray-400 transition-all"></i>
-        <i className="bx bx-cloud-download text-[24px] text-white cursor-pointer hover:text-gray-400 transition-all"></i>
+        <i className="bx bx-search text-[24px] text-white cursor-pointer hover:text-green-500 transition-all"></i>
+        <i className="bx bx-cloud-download text-[24px] text-white cursor-pointer hover:text-green-500 transition-all"></i>
         <i
-          className="bx bx-user-circle text-[24px] text-white cursor-pointer hover:text-gray-400 transition-all"
+          className="bx bx-user-circle text-[24px] text-white cursor-pointer hover:text-green-500 transition-all"
           onClick={() => {
             if (token === null || token === undefined) dispatch(showLogin());
           }}

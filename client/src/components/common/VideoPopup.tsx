@@ -26,6 +26,12 @@ const VideoPopup = (props: IProp) => {
           alt=""
           className="w-full max-w-full max-h-full object-cover"
         />
+        <div className="absolute top-4 right-4">
+          <i
+            className="bx bx-x text-[28px] text-white cursor-pointer hover:text-green-500 transition-all"
+            onClick={() => dispatch(hideVideoPopup())}
+          ></i>
+        </div>
         <div className="-mt-4 px-2 lg:px-8 flex gap-2 bg-background-color">
           <button
             className="flex items-center px-6 py-2 bg-white"
