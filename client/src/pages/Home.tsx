@@ -1,5 +1,5 @@
 // import required modules
-import HeroVideo from "../components/common/HeroVideo";
+import HeroVideo from "../components/common/HeroVideoSlider";
 import Slider from "../components/common/Slider";
 import VideoPopup from "../components/common/VideoPopup";
 import { useSelector } from "react-redux";
@@ -8,22 +8,27 @@ import movieApi from "../api/movieApi";
 import { useEffect } from "react";
 import { useState } from "react";
 import { IMovie } from "../interfaces/movie";
+import { AxiosResponse } from "axios";
 
 const Home = () => {
   const isShowVideoPopup = useSelector(
     (state: RootState) => state.common.isShowVideoPopup
   );
   const movie = useSelector((state: RootState) => state.movie.movie);
-  const [movieList, setMovieList] = useState() as any;
+  const [movieList, setMovieList] = useState<IMovie[]>();
 
   const fetchData = async () => {
-    const response = (await movieApi.getAll()) as any;
-    setMovieList(response.movies);
-    console.log(response);
+    const response: AxiosResponse = await movieApi.getRandomMovie(10);
+    setMovieList(response.data.movies);
   };
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const navbar = document.getElementById("navbar") as any;
+    navbar.style.display = "flex";
   }, []);
 
   return (

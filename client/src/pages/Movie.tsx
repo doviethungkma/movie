@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import movieApi from "./../api/movieApi";
 import { IMovie } from "../interfaces/movie";
+import { AxiosResponse } from "axios";
 
 const Movie = () => {
   const params = useParams();
@@ -38,8 +39,8 @@ const Movie = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: any = await movieApi.getById(movieId);
-      setMovie(response.movie);
+      const response: AxiosResponse = await movieApi.getById(movieId);
+      setMovie(response.data.movie);
     };
     fetchData();
   }, []);

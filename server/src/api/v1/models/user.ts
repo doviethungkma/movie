@@ -31,18 +31,22 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       require: true,
-      default: "user",
+      default: "user", //user: normal user - using in client. admin: admin user - full access. mod: can't access usermanager and package manager
     },
-    package: {
-      type: String,
-      default: "normal", //normal, vip, hbo, sport, all
-    },
-    packageStart: {
-      type: Date,
-    },
-    packageEnd: {
-      type: Date,
-    },
+    package: [
+      {
+        type: {
+          type: String,
+          default: "normal",
+        }, // vip, hbo, sport, all
+        startDate: {
+          type: Date,
+        },
+        endDate: {
+          type: Date,
+        },
+      },
+    ],
     watching: [
       {
         id: {
