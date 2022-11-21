@@ -14,6 +14,9 @@ module.exports = {
         "70/30": "70% 30%",
         "60/40": "60% 40%",
       },
+      borderColor: {
+        thin: "#ffffff1A",
+      },
     },
   },
   plugins: [],
