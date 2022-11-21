@@ -1,7 +1,7 @@
-import jsonwebtoken, { Jwt, JwtPayload } from "jsonwebtoken";
+import { NextFunction, Request, Response } from "express";
+import jsonwebtoken from "jsonwebtoken";
 import User from "../models/user";
 import { HTTP_STATUS } from "../utils/constant";
-import { Request, Response, NextFunction } from "express";
 
 interface JwtPayloadSigned extends jsonwebtoken.JwtPayload {
   id: string;

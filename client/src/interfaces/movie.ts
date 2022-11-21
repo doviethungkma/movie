@@ -1,6 +1,7 @@
 export interface IEpisode {
-  id: number;
-  thumb: string;
+  _id?: string;
+  id?: number;
+  thumb?: string;
   title?: string;
   description?: string;
   time?: string;
