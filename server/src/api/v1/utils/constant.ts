@@ -11,3 +11,9 @@ export const HTTP_STATUS = {
   CONFLICT: 409,
   TOO_MANY_REQUEST: 429,
 };
+
+export const ROLE = {
+  ADMIN: "admin",
+  MOD: "mod",
+  USER: "user",
+};
