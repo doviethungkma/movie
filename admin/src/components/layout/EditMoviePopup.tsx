@@ -29,6 +29,7 @@ const EditMoviePopup = (props: IProps) => {
     year: props.item.year,
     totalEp: 1,
     thumb: props.item.thumb,
+    nameImage: props.item.nameImage,
     trailer: props.item.trailer,
     tags: props.item.tags,
     acceptable: props.item.acceptable,
@@ -67,9 +68,11 @@ const EditMoviePopup = (props: IProps) => {
     setMovie({ ...movie, [e.target.name]: e.target.value });
   };
 
+  console.log(movie);
+
   const onSave = async () => {
     try {
-      const response = await movieApi.update(props.item._id as string, movie);
+      await movieApi.update(props.item._id as string, movie);
       dispatch(getAllMovie());
       toast.success("Edit movie successfully", {
         position: toast.POSITION.TOP_RIGHT,
@@ -106,6 +109,11 @@ const EditMoviePopup = (props: IProps) => {
           />
           <Input name="thumb" value={movie.thumb} onChange={handleChange} />
           <Input name="trailer" value={movie.trailer} onChange={handleChange} />
+          <Input
+            name="nameImage"
+            value={movie.nameImage}
+            onChange={handleChange}
+          />
           <Input
             name="actor"
             value={strActor}
