@@ -17,6 +17,9 @@ module.exports = {
       borderColor: {
         thin: "#ffffff1A",
       },
+      screens: {
+        xs: "500px",
+      },
     },
   },
   plugins: [],

@@ -1,17 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IMovie } from "../../interfaces/movie";
 
-interface IState {}
+interface ICommonSliceState {
+  isShowMenu: boolean;
+}
 
-const initialState: IState = {};
+const initialState: ICommonSliceState = {
+  isShowMenu: false,
+};
 
 const commonSlice = createSlice({
   name: "common",
   initialState,
-  reducers: {},
+  reducers: {
+    showMenu: (state) => {
+      state.isShowMenu = true;
+    },
+    hideMenu: (state) => {
+      state.isShowMenu = false;
+    },
+  },
 });
 
 const { reducer } = commonSlice;
-export const {} = commonSlice.actions;
+export const { showMenu, hideMenu } = commonSlice.actions;
 
 export default reducer;
