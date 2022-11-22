@@ -32,6 +32,7 @@ const HeroSlider = (props: IHeroSliderProps) => {
                 src={item.trailer}
                 autoPlay
                 muted
+                loop
                 className="aspect-video w-screen h-screen object-cover"
                 preload={item.thumb}
               />

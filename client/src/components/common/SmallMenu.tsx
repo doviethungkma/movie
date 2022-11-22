@@ -11,7 +11,7 @@ const SmallMenu = () => {
   return (
     <>
       {isShowMenu && (
-        <div className="w-full xs:w-[50%] h-screen absolute top-0 left-0 flex flex-col bg-[#111111] opacity-95 md:hidden">
+        <div className="w-full xs:w-[50%] h-screen fixed top-0 left-0 flex flex-col bg-[#111111] opacity-95 md:hidden">
           <div className="w-full hover:text-green-400 cursor-pointer transition-all px-6 py-3">
             <i
               className="bx bx-x float-right text-[28px]"
