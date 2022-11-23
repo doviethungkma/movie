@@ -10,12 +10,14 @@ interface IButtonProps {
   border?: string;
   borderRadius?: string;
   hover?: string;
+  onClick?: any;
 }
 
 const Button = (props: IButtonProps) => {
   return (
     <button
       className={`${props.width} ${props.height} ${props.bg} ${props.color} ${props.border} ${props.borderRadius} ${props.hover} flex items-center justify-center`}
+      onClick={props.onClick}
     >
       {props.children}
     </button>

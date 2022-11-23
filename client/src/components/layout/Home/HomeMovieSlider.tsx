@@ -2,7 +2,9 @@ import { Navigation, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { IMovie } from "../../interfaces/movie";
+import { IMovie } from "../../../interfaces/movie";
+import { useDispatch } from "react-redux";
+import { setMovie, showMoviePopup } from "../../../redux/features/movieSlice";
 
 interface IHomeMovieSliderProps {
   title: string;
@@ -10,6 +12,8 @@ interface IHomeMovieSliderProps {
 }
 
 const HomeMovieSlider = (props: IHomeMovieSliderProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="w-full mb-[30px]">
       <h3 className="text-[28px] text-white uppercase font-medium mb-4">
@@ -51,6 +55,10 @@ const HomeMovieSlider = (props: IHomeMovieSliderProps) => {
                   src={item.thumb}
                   alt={item.thumb}
                   className=" w-full h-full object-cover cursor-pointer"
+                  onClick={() => {
+                    dispatch(setMovie(item));
+                    dispatch(showMoviePopup());
+                  }}
                 />
               </SwiperSlide>
             ))}

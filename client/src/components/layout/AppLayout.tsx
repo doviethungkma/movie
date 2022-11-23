@@ -6,7 +6,7 @@ import Navbar from "../common/Navbar";
 
 const AppLayout = () => {
   return (
-    <div className="relative z-10">
+    <div className="relative">
       <Navbar />
       <Outlet />
       <ToastContainer theme="dark" position={toast.POSITION.TOP_CENTER} />

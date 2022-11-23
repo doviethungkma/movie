@@ -21,7 +21,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar fixed w-full h-[55px] bg-transparent flex items-center justify-between px-6 md:px-[58px] text-white border-b border-b-thin z-50">
+    <div className="navbar fixed w-full h-[55px] bg-transparent flex items-center justify-between px-6 md:px-[58px] text-white border-b border-b-thin z-10">
       <div className="flex justify-between gap-4 items-center">
         <div className=" text-[28px] cursor-pointer md:hidden">
           <i

@@ -1,11 +1,15 @@
 import { IMovie } from "../../interfaces/movie";
 import Button from "./Button";
+import { useDispatch } from "react-redux";
+import { setMovie, showMoviePopup } from "../../redux/features/movieSlice";
 
 interface IHeroTitleProps {
   movie: IMovie;
 }
 
 const HeroTitle = (props: IHeroTitleProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="flex flex-col gap-4 absolute w-[90%] max-w-[746px] bottom-[212px] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[58px] z-10">
       <img
@@ -37,6 +41,10 @@ const HeroTitle = (props: IHeroTitleProps) => {
           border="border border-thin"
           borderRadius="rounded-[2px]"
           hover="hover:text-green-500 transition-all"
+          onClick={() => {
+            dispatch(setMovie(props.movie));
+            dispatch(showMoviePopup());
+          }}
         >
           <i className="bx bxs-right-arrow text-[22px] mr-4"></i>{" "}
           <span className="text-md font-medium">Chi tiết</span>
