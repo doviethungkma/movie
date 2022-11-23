@@ -62,6 +62,10 @@
         color: white
     }
 
+    .popup{
+        opacity: 1 !important
+     }
+
 }
 
 
