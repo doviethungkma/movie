@@ -27,7 +27,7 @@ const MovieDescription = (props: IMovieDescriptionProps) => {
       <p>
         {props.movie.year} | {props.movie.country}
       </p>
-      <p className="pr-10">{props.movie.description}</p>
+      <p className="text-justify sm:pr-10">{props.movie.description}</p>
     </div>
   );
 };
