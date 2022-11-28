@@ -12,12 +12,13 @@ interface IHomeMovieSliderProps {
 }
 
 const HomeMovieSlider = (props: IHomeMovieSliderProps) => {
+  const { title, movies } = props;
   const dispatch = useDispatch();
 
   return (
     <div className="w-full mb-[30px]">
       <h3 className="text-[28px] text-white uppercase font-medium mb-4">
-        {props.title}
+        {title}
       </h3>
       <div className="h-[165px]">
         <Swiper
@@ -48,8 +49,8 @@ const HomeMovieSlider = (props: IHomeMovieSliderProps) => {
           modules={[Navigation, Autoplay]}
           className="mySwiper"
         >
-          {props.movies &&
-            props.movies.map((item, index) => (
+          {movies &&
+            movies.map((item, index) => (
               <SwiperSlide key={index}>
                 <img
                   src={item.thumb}

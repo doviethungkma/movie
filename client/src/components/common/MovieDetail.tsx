@@ -6,6 +6,7 @@ interface IMovieDetailProps {
 }
 
 const MovieDetail = (props: IMovieDetailProps) => {
+  const { movie } = props;
   return (
     <div className="w-full flex flex-col items-start gap-1 text-white">
       <div className="flex flex-col mb-4 items-center cursor-pointer ">
@@ -14,7 +15,7 @@ const MovieDetail = (props: IMovieDetailProps) => {
       </div>
       <p>
         <span className="text-gray-500">Diễn viên: </span>
-        <span>{props.movie.actor}</span>
+        <span>{movie?.actor}</span>
       </p>
       <p>
         <span className="text-gray-500">Đạo diễn: </span>
@@ -22,7 +23,7 @@ const MovieDetail = (props: IMovieDetailProps) => {
       </p>
       <p>
         <span className="text-gray-500">Thể loại: </span>
-        <span>{props.movie.type}</span>
+        <span>{movie?.type}</span>
       </p>
     </div>
   );

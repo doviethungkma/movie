@@ -4,20 +4,27 @@ import { useDispatch } from "react-redux";
 import { SwiperSlide } from "swiper/react";
 import movieApi from "../../../api/movieApi";
 import { IMovie } from "../../../interfaces/movie";
-import { hideMoviePopup } from "../../../redux/features/movieSlice";
+import {
+  hideMoviePopup,
+  setMovie,
+  showMoviePopup,
+} from "../../../redux/features/movieSlice";
 import Button from "../../common/Button";
-import EpisodeCard from "../../common/EpisodeCard";
+import EpisodeCard from "../../common/MovieCard";
 import MovieDescription from "../../common/MovieDescription";
 import MovieDetail from "../../common/MovieDetail";
 import MoviePopupSlider from "../../common/MoviePopupSlider";
 import Overlay from "./../../common/Overlay";
+import { useNavigate } from "react-router-dom";
 
 interface IMoviePopupProps {
   movie: IMovie;
 }
 
 const MoviePopup = (props: IMoviePopupProps) => {
+  const { movie } = props;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [movies, setmovies] = useState<IMovie[]>();
 
   const getData = async () => {
@@ -40,10 +47,10 @@ const MoviePopup = (props: IMoviePopupProps) => {
           <i className="bx bx-x text-white text-[32px]"></i>
         </div>
         <div className="relative w-full z-20">
-          <img src={props.movie.thumb} alt="" className="w-full" />
+          <img src={movie.thumb} alt="" className="w-full" />
           <div className="w-full absolute -bottom-6 sm:left-8">
             <img
-              src={props.movie.nameImage}
+              src={movie.nameImage}
               alt=""
               className="w-[50%] max-w-[288px] ml-4 sm:ml-0 mb-10"
             />
@@ -55,9 +62,19 @@ const MoviePopup = (props: IMoviePopupProps) => {
                 bg="bg-white"
                 borderRadius="rounded-sm"
                 hover="hover:text-green-500 transition-all"
+                onClick={() => {
+                  const firstEp = movie.episodes?.filter(
+                    (item: any) => parseInt(item.id) === 1
+                  );
+                  console.log(firstEp);
+                  navigate(
+                    `movie/watch/${movie._id}/${firstEp && firstEp[0]._id}`
+                  );
+                  dispatch(hideMoviePopup());
+                }}
               >
                 <i className="bx bx-play text-[22px] mr-5"></i>
-                <span className="text-md font-medium">Xem tiếp</span>
+                <span className="text-md font-medium">Xem ngay</span>
               </Button>
               <Button
                 width="w-[149px]"
@@ -76,18 +93,24 @@ const MoviePopup = (props: IMoviePopupProps) => {
         </div>
         <div className="w-full px-4 md:px-8 py-[70px] flex flex-col sm:flex-row gap-8 md:gap-2">
           <div className=" w-full sm:w-[70%]">
-            <MovieDescription movie={props.movie} />
+            <MovieDescription movie={movie} />
           </div>
           <div className="w-full sm:w-[30%]">
-            <MovieDetail movie={props.movie} />
+            <MovieDetail movie={movie} />
           </div>
         </div>
         <div className="w-full px-4 sm:px-8 ">
-          {props.movie.episodes && props.movie.episodes.length > 1 ? (
+          {movie.episodes && movie.episodes.length > 1 ? (
             <MoviePopupSlider title="Danh sách tập">
-              {props.movie.episodes.map((item, index) => (
+              {movie.episodes.map((item, index) => (
                 <SwiperSlide>
-                  <EpisodeCard episode={item} type="episode" />
+                  <EpisodeCard
+                    episode={item}
+                    type="episode"
+                    onItemClick={() => {
+                      navigate(`movie/watch/${movie._id}/${item._id}`);
+                    }}
+                  />
                 </SwiperSlide>
               ))}
             </MoviePopupSlider>
@@ -99,7 +122,14 @@ const MoviePopup = (props: IMoviePopupProps) => {
           <MoviePopupSlider title="Đề xuất cho bạn">
             {movies?.map((item, index) => (
               <SwiperSlide>
-                <EpisodeCard type="movie" movie={item} />
+                <EpisodeCard
+                  type="movie"
+                  movie={item}
+                  onItemClick={() => {
+                    dispatch(setMovie(item));
+                    dispatch(showMoviePopup());
+                  }}
+                />
               </SwiperSlide>
             ))}
           </MoviePopupSlider>

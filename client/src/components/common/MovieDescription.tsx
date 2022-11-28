@@ -7,6 +7,7 @@ interface IMovieDescriptionProps {
 }
 
 const MovieDescription = (props: IMovieDescriptionProps) => {
+  const { movie } = props;
   const handleRating = () => {};
   const [currentRating, setCurrentRating] = useState(3);
 
@@ -25,9 +26,9 @@ const MovieDescription = (props: IMovieDescriptionProps) => {
         />
       </p>
       <p>
-        {props.movie.year} | {props.movie.country}
+        {movie?.year} | {movie?.country}
       </p>
-      <p className="text-justify sm:pr-10">{props.movie.description}</p>
+      <p className="text-justify sm:pr-10">{movie?.description}</p>
     </div>
   );
 };
