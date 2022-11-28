@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { showMenu } from "../../redux/features/commonSlice";
+import { showLoginPopup, showMenu } from "../../redux/features/commonSlice";
 import LargeMenu from "./LargeMenu";
 import SmallMenu from "./SmallMenu";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const token = localStorage.getItem("token");
+  console.log(token);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,13 +36,23 @@ const Navbar = () => {
         <img
           src={require("../../assets/icons/logo.svg").default}
           alt="logo"
-          className="w-[90px] h-[28px]"
+          className="w-[90px] h-[28px] cursor-pointer"
+          onClick={() => navigate("/")}
         />
         {windowWidth > 768 ? <LargeMenu /> : <SmallMenu />}
       </div>
       <div className="navbar__icon flex gap-5">
         <i className="bx bx-search text-[28px] cursor-pointer hover:text-gray-400 transition-all"></i>
-        <i className="bx bx-user-circle text-[28px] cursor-pointer hover:text-gray-400 transition-all"></i>
+        {token === undefined || token === null ? (
+          <i
+            className="bx bx-user-circle text-[28px] cursor-pointer hover:text-gray-400 transition-all"
+            onClick={() => dispatch(showLoginPopup())}
+          ></i>
+        ) : (
+          <p className="cursor-pointer hover:text-green-500 transition-all capitalize">
+            {localStorage.getItem("username")}
+          </p>
+        )}
       </div>
     </div>
   );
