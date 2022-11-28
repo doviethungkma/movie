@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
 import movieApi from "../../../api/movieApi";
 import { IMovie } from "../../../interfaces/movie";
@@ -15,7 +16,7 @@ import MovieDescription from "../../common/MovieDescription";
 import MovieDetail from "../../common/MovieDetail";
 import MoviePopupSlider from "../../common/MoviePopupSlider";
 import Overlay from "./../../common/Overlay";
-import { useNavigate } from "react-router-dom";
+import Comment from "./../../common/Comment";
 
 interface IMoviePopupProps {
   movie: IMovie;
@@ -23,6 +24,7 @@ interface IMoviePopupProps {
 
 const MoviePopup = (props: IMoviePopupProps) => {
   const { movie } = props;
+  const commentRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [movies, setmovies] = useState<IMovie[]>();
@@ -96,7 +98,12 @@ const MoviePopup = (props: IMoviePopupProps) => {
             <MovieDescription movie={movie} />
           </div>
           <div className="w-full sm:w-[30%]">
-            <MovieDetail movie={movie} />
+            <MovieDetail
+              movie={movie}
+              onClick={() =>
+                commentRef?.current?.scrollIntoView({ behavior: "smooth" })
+              }
+            />
           </div>
         </div>
         <div className="w-full px-4 sm:px-8 ">
@@ -133,6 +140,12 @@ const MoviePopup = (props: IMoviePopupProps) => {
               </SwiperSlide>
             ))}
           </MoviePopupSlider>
+        </div>
+        <div className="py-8 px-6 sm:px-8" id="comment-block" ref={commentRef}>
+          <h4 className="text-white text-xl font-bold mb-4">Bình luận</h4>
+          <Comment />
+          <Comment />
+          <Comment />
         </div>
       </div>
     </div>

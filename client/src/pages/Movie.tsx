@@ -14,6 +14,7 @@ import {
   showMoviePopup,
   setMovie as setStateMovie,
 } from "../redux/features/movieSlice";
+import Comment from "../components/common/Comment";
 
 import { IEpisode } from "./../interfaces/movie";
 
@@ -101,6 +102,10 @@ const Movie = () => {
             </SwiperSlide>
           ))}
         </MoviePopupSlider>
+      </div>
+      <div className="w-full max-w-[1024px] mt-10 px-6 md:px-[58px]">
+        <h4 className="text-white text-xl font-bold mb-4">Bình luận</h4>
+        <Comment />
       </div>
     </div>
   );
