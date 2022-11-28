@@ -3,10 +3,14 @@ import { IMovie } from "../../interfaces/movie";
 
 interface ICommonSliceState {
   isShowMenu: boolean;
+  isShowLogin: boolean;
+  isShowSignup: boolean;
 }
 
 const initialState: ICommonSliceState = {
   isShowMenu: false,
+  isShowLogin: false,
+  isShowSignup: false,
 };
 
 const commonSlice = createSlice({
@@ -19,10 +23,29 @@ const commonSlice = createSlice({
     hideMenu: (state) => {
       state.isShowMenu = false;
     },
+    showLoginPopup: (state) => {
+      state.isShowLogin = true;
+    },
+    hideLoginPopup: (state) => {
+      state.isShowLogin = false;
+    },
+    showSignupPopup: (state) => {
+      state.isShowSignup = true;
+    },
+    hideSignupPopup: (state) => {
+      state.isShowSignup = false;
+    },
   },
 });
 
 const { reducer } = commonSlice;
-export const { showMenu, hideMenu } = commonSlice.actions;
+export const {
+  showMenu,
+  hideMenu,
+  showLoginPopup,
+  hideLoginPopup,
+  showSignupPopup,
+  hideSignupPopup,
+} = commonSlice.actions;
 
 export default reducer;
