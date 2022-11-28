@@ -10,9 +10,10 @@ interface IMoviePopupSliderProps {
 }
 
 const MoviePopupSlider = (props: IMoviePopupSliderProps) => {
+  const { title, children } = props;
   return (
     <div className="text-white">
-      <h3 className="text-[28px] font-bold mb-4">{props.title}</h3>
+      <h3 className="text-[28px] font-bold mb-4">{title}</h3>
       <Swiper
         spaceBetween={10}
         navigation={true}
@@ -37,7 +38,7 @@ const MoviePopupSlider = (props: IMoviePopupSliderProps) => {
         modules={[Navigation, Autoplay]}
         className="moviePopupSwiper h-auto"
       >
-        {props.children}
+        {children}
       </Swiper>
     </div>
   );
