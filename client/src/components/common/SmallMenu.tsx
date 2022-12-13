@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { menu } from "../../models/menu";
 import { hideMenu } from "../../redux/features/commonSlice";
 import { RootState } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 
 const SmallMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isShowMenu = useSelector((state: RootState) => state.common.isShowMenu);
 
   return (
@@ -22,6 +24,9 @@ const SmallMenu = () => {
             <div
               key={item.id}
               className="w-full flex gap-3 hover:text-gray-400 cursor-pointer transition-all px-6 py-3"
+              onClick={() =>
+                navigate(item._id === "" ? `/` : `/movie/list/${item._id}`)
+              }
             >
               <img src={item.icon} alt="" />
               <p>{item.name}</p>

@@ -11,6 +11,7 @@ export interface IEpisode {
 export interface IMovie {
   _id?: string;
   name: string;
+  category?: string;
   nameImage?: string;
   year?: string;
   country?: string;

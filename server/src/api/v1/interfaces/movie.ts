@@ -9,6 +9,7 @@ interface IEpisode {
 
 export interface IMovie {
   name: string;
+  category: string;
   nameImage: string;
   year?: string;
   country?: string;

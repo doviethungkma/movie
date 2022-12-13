@@ -17,6 +17,21 @@ export const listAcceptableValue = [
   },
 ];
 
+export const listCategory = [
+  {
+    name: "HBO",
+    value: "639729908f6a33c7ce933af1",
+  },
+  {
+    name: "Vip",
+    value: "639729d98f6a33c7ce933af5",
+  },
+  {
+    name: "Sport",
+    value: "639729e48f6a33c7ce933af7",
+  },
+];
+
 export const listMovieStatus = [
   {
     name: "Active",
