@@ -3,8 +3,10 @@ import { validate } from "./../middlewares/validation";
 import {
   getAllUser,
   getUserById,
+  getUserDetail,
   renewPackage,
   updateUser,
+  updateUserDetail,
 } from "./../controllers/user";
 import { verifyToken } from "../middlewares/tokenHandler";
 import { checkRole } from "../middlewares/roleHandler";
@@ -30,6 +32,9 @@ router.put(
   checkRole([ROLE.ADMIN]),
   updateUser
 );
+
+router.put("/detail/:userId", validate, verifyToken, updateUserDetail);
+router.get("/detail/:userId", validate, verifyToken, getUserDetail);
 
 router.put(
   "/:userId/:packageId/:packageMonth",

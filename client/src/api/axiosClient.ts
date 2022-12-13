@@ -8,4 +8,15 @@ const axiosClient = axios.create({
   paramsSerializer: (params) => queryString.stringify({ params }),
 });
 
+axiosClient.interceptors.request.use(async (config) => {
+  const token = localStorage.getItem("token");
+  return {
+    ...config,
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  };
+});
+
 export default axiosClient;

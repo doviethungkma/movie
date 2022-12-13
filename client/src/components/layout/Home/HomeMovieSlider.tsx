@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { IMovie } from "../../../interfaces/movie";
 import { useDispatch } from "react-redux";
-import { setMovie, showMoviePopup } from "../../../redux/features/movieSlice";
+import { setMovie, showMovieModal } from "../../../redux/features/movieSlice";
 
 interface IHomeMovieSliderProps {
   title: string;
@@ -58,7 +58,7 @@ const HomeMovieSlider = (props: IHomeMovieSliderProps) => {
                   className=" w-full h-full object-cover cursor-pointer"
                   onClick={() => {
                     dispatch(setMovie(item));
-                    dispatch(showMoviePopup());
+                    dispatch(showMovieModal());
                   }}
                 />
               </SwiperSlide>

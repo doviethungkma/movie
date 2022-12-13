@@ -1,7 +1,7 @@
 import React from "react";
 import { IMovie } from "../../interfaces/movie";
 import { useDispatch } from "react-redux";
-import { setMovie, showMoviePopup } from "../../redux/features/movieSlice";
+import { setMovie, showMovieModal } from "../../redux/features/movieSlice";
 import { useNavigate } from "react-router-dom";
 
 interface ISearchResultBoxProps {
@@ -25,7 +25,7 @@ const SearchResultBox = (props: ISearchResultBoxProps) => {
                 clearInput();
                 dispatch(setMovie(item));
                 navigate("/");
-                dispatch(showMoviePopup());
+                dispatch(showMovieModal());
               }}
             >
               <img

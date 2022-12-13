@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { showLoginPopup, showMenu } from "../../redux/features/commonSlice";
-import LargeMenu from "./LargeMenu";
-import SmallMenu from "./SmallMenu";
-import { useNavigate } from "react-router-dom";
-import movieApi from "./../../api/movieApi";
 import { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { IMovie } from "../../interfaces/movie";
+import {
+  showLoginPopup,
+  showMenu,
+  toggleUserMenuPopup,
+} from "../../redux/features/commonSlice";
+import { RootState } from "../../redux/store";
+import movieApi from "./../../api/movieApi";
+import LargeMenu from "./LargeMenu";
 import SearchResultBox from "./SearchResultBox";
+import SmallMenu from "./SmallMenu";
+import UserDetailMenu from "./UserDetailMenu";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,8 +23,9 @@ const Navbar = () => {
   const token = localStorage.getItem("token");
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchResult, setSearchResult] = useState<IMovie[]>([]);
-
-  console.log(searchResult);
+  const isShowUserDetailMenu = useSelector(
+    (state: RootState) => state.common.isShowUserMenu
+  );
 
   //search movie
   useEffect(() => {
@@ -92,7 +99,10 @@ const Navbar = () => {
             onClick={() => dispatch(showLoginPopup())}
           ></i>
         ) : (
-          <p className="cursor-pointer hover:text-green-500 transition-all capitalize">
+          <p
+            className="cursor-pointer hover:text-green-500 transition-all capitalize"
+            onClick={() => dispatch(toggleUserMenuPopup())}
+          >
             {localStorage.getItem("username")}
           </p>
         )}
@@ -100,6 +110,7 @@ const Navbar = () => {
       {searchInput !== "" && (
         <SearchResultBox listItem={searchResult} clearInput={clearInput} />
       )}
+      {isShowUserDetailMenu && <UserDetailMenu />}
     </div>
   );
 };

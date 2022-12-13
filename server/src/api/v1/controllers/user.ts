@@ -155,6 +155,31 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
+export const getUserDetail = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).select(
+      "_id username name email phone gender status role package"
+    );
+    if (user) {
+      res.status(HTTP_STATUS.SUCCESS).json({
+        status: "success",
+        user,
+      });
+    } else {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Get user failed",
+      });
+    }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      error: error.message,
+    });
+  }
+};
+
 export const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const data = req.body;
@@ -168,6 +193,47 @@ export const updateUser = async (req: Request, res: Response) => {
         new: true,
       }
     );
+    if (!userUpdated)
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ status: "error", message: "Update user failed" });
+
+    res.status(HTTP_STATUS.SUCCESS).json({
+      status: "success",
+      user: userUpdated,
+    });
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};
+
+export const updateUserDetail = async (req: any, res: Response) => {
+  const { userId } = req.params;
+  const currentUser = req.user;
+  const { name, email, phone, gender } = req.body;
+  try {
+    if (currentUser._id.toString() !== userId.toString())
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Use can't edit this user",
+      });
+    const userUpdated = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          name,
+          email,
+          phone,
+          gender,
+        },
+      },
+      {
+        new: true,
+      }
+    ).select("name email phone gender");
     if (!userUpdated)
       return res
         .status(HTTP_STATUS.BAD_REQUEST)

@@ -9,6 +9,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import MoviePopup from "./Home/MoviePopup";
 import { IMovie } from "../../interfaces/movie";
+import UserDetailModal from "./UserDetailModal";
 
 const AppLayout = () => {
   const isShowLogin = useSelector(
@@ -17,8 +18,14 @@ const AppLayout = () => {
   const isShowSignup = useSelector(
     (state: RootState) => state.common.isShowSignup
   );
-  const isShowMoviePopup: boolean = useSelector(
-    (state: RootState) => state.movie.isShowMoviePopup
+  const isShowMovieModal: boolean = useSelector(
+    (state: RootState) => state.movie.isShowMovieModal
+  );
+  const isShowWatchingModal: boolean = useSelector(
+    (state: RootState) => state.movie.isShowWatchingModal
+  );
+  const isShowUserDetailModal: boolean = useSelector(
+    (state: RootState) => state.common.isShowUserDetailModal
   );
 
   const movie = useSelector((state: RootState) => state.movie.movie);
@@ -30,7 +37,8 @@ const AppLayout = () => {
       <Outlet />
       {isShowLogin && <Login />}
       {isShowSignup && <Signup />}
-      {isShowMoviePopup && <MoviePopup movie={movie as IMovie} />}
+      {isShowMovieModal && <MoviePopup movie={movie as IMovie} />}
+      {isShowUserDetailModal && <UserDetailModal />}
       <ToastContainer theme="dark" position={toast.POSITION.TOP_CENTER} />
     </div>
   );

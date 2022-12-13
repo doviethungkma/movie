@@ -5,12 +5,16 @@ interface ICommonSliceState {
   isShowMenu: boolean;
   isShowLogin: boolean;
   isShowSignup: boolean;
+  isShowUserMenu: boolean;
+  isShowUserDetailModal: boolean;
 }
 
 const initialState: ICommonSliceState = {
   isShowMenu: false,
   isShowLogin: false,
   isShowSignup: false,
+  isShowUserMenu: false,
+  isShowUserDetailModal: false,
 };
 
 const commonSlice = createSlice({
@@ -35,6 +39,15 @@ const commonSlice = createSlice({
     hideSignupPopup: (state) => {
       state.isShowSignup = false;
     },
+    showUserDetailModal: (state) => {
+      state.isShowUserDetailModal = true;
+    },
+    hideUserDetailModal: (state) => {
+      state.isShowUserDetailModal = false;
+    },
+    toggleUserMenuPopup: (state) => {
+      state.isShowUserMenu = !state.isShowUserMenu;
+    },
   },
 });
 
@@ -46,6 +59,9 @@ export const {
   hideLoginPopup,
   showSignupPopup,
   hideSignupPopup,
+  toggleUserMenuPopup,
+  showUserDetailModal,
+  hideUserDetailModal,
 } = commonSlice.actions;
 
 export default reducer;

@@ -2,9 +2,9 @@ import { IMovie } from "../../interfaces/movie";
 import Button from "./Button";
 import { useDispatch } from "react-redux";
 import {
-  hideMoviePopup,
+  hideMovieModal,
   setMovie,
-  showMoviePopup,
+  showMovieModal,
 } from "../../redux/features/movieSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -42,7 +42,7 @@ const HeroTitle = (props: IHeroTitleProps) => {
             );
             console.log(firstEp);
             navigate(`movie/watch/${movie._id}/${firstEp && firstEp[0]._id}`);
-            dispatch(hideMoviePopup());
+            dispatch(hideMovieModal());
           }}
         >
           <i className="bx bxs-right-arrow text-[22px] mr-5"></i>{" "}
@@ -58,7 +58,7 @@ const HeroTitle = (props: IHeroTitleProps) => {
           hover="hover:text-green-500 transition-all"
           onClick={() => {
             dispatch(setMovie(movie));
-            dispatch(showMoviePopup());
+            dispatch(showMovieModal());
           }}
         >
           <i className="bx bxs-right-arrow text-[22px] mr-4"></i>{" "}
