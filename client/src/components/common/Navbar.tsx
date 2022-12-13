@@ -4,13 +4,31 @@ import { showLoginPopup, showMenu } from "../../redux/features/commonSlice";
 import LargeMenu from "./LargeMenu";
 import SmallMenu from "./SmallMenu";
 import { useNavigate } from "react-router-dom";
+import movieApi from "./../../api/movieApi";
+import { AxiosResponse } from "axios";
+import { IMovie } from "../../interfaces/movie";
+import SearchResultBox from "./SearchResultBox";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isShowSearch, setIsShowSearch] = useState(false);
   const token = localStorage.getItem("token");
-  console.log(token);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchResult, setSearchResult] = useState<IMovie[]>([]);
+
+  console.log(searchResult);
+
+  //search movie
+  useEffect(() => {
+    const getData = setTimeout(async () => {
+      const response: AxiosResponse = await movieApi.searchMovie(searchInput);
+      setSearchResult(response.data.result);
+    }, 1000);
+
+    return () => clearTimeout(getData);
+  }, [searchInput]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,6 +41,11 @@ const Navbar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const clearInput = () => {
+    setSearchInput("");
+    setIsShowSearch(false);
+  };
 
   return (
     <div className="navbar fixed w-full h-[55px] bg-transparent flex items-center justify-between px-6 md:px-[58px] text-white border-b border-b-thin z-10">
@@ -39,10 +62,30 @@ const Navbar = () => {
           className="w-[90px] h-[28px] cursor-pointer"
           onClick={() => navigate("/")}
         />
-        {windowWidth > 768 ? <LargeMenu /> : <SmallMenu />}
+        {windowWidth >= 768 ? <LargeMenu /> : <SmallMenu />}
       </div>
-      <div className="navbar__icon flex gap-5">
-        <i className="bx bx-search text-[28px] cursor-pointer hover:text-gray-400 transition-all"></i>
+      <div className="navbar__icon flex gap-5 items-center">
+        {isShowSearch && (
+          <form
+            onSubmit={() => alert("submit")}
+            className="absolute right-[140px]"
+          >
+            <input
+              type="text"
+              className="w-[400px] pl-4 pr-8  h-9 bg-background-color outline-none focus:outline-white focus:outline-1 z-10"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchInput(e.target.value)
+              }
+            />
+          </form>
+        )}
+        <i
+          className="bx bx-search text-[24px] cursor-pointer hover:text-gray-400 transition-all z-20"
+          onClick={() => {
+            setSearchInput("");
+            setIsShowSearch(!isShowSearch);
+          }}
+        ></i>
         {token === undefined || token === null ? (
           <i
             className="bx bx-user-circle text-[28px] cursor-pointer hover:text-gray-400 transition-all"
@@ -54,6 +97,9 @@ const Navbar = () => {
           </p>
         )}
       </div>
+      {searchInput !== "" && (
+        <SearchResultBox listItem={searchResult} clearInput={clearInput} />
+      )}
     </div>
   );
 };
