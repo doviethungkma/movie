@@ -4,11 +4,13 @@ import { IMovie } from "../../interfaces/movie";
 interface IMovieSliceState {
   isShowMoviePopup: boolean;
   movie: IMovie | undefined;
+  listMovies: IMovie[] | undefined;
 }
 
 const initialState: IMovieSliceState = {
   isShowMoviePopup: false,
   movie: undefined,
+  listMovies: undefined,
 };
 
 const movieSlice = createSlice({
@@ -24,10 +26,14 @@ const movieSlice = createSlice({
     setMovie: (state, action) => {
       state.movie = action.payload;
     },
+    setListMovies: (state, action) => {
+      state.listMovies = action.payload;
+    },
   },
 });
 
 const { reducer } = movieSlice;
-export const { showMoviePopup, hideMoviePopup, setMovie } = movieSlice.actions;
+export const { showMoviePopup, hideMoviePopup, setMovie, setListMovies } =
+  movieSlice.actions;
 
 export default reducer;

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { IMovie } from "../../interfaces/movie";
 import { hideEditMovie } from "../../redux/features/movieSlice";
-import { listAcceptableValue, listMovieStatus } from "../../utils/constant";
+import {
+  listAcceptableValue,
+  listCategory,
+  listMovieStatus,
+} from "../../utils/constant";
 import Button from "../common/Button";
 import Dropdown from "../common/Dropdown";
 import Input from "../common/Input";
@@ -23,6 +27,7 @@ const EditMoviePopup = (props: IProps) => {
   const [strActor, setStrActor] = useState(props.item.actor?.toString());
   const [movie, setMovie] = useState<IMovie>({
     name: props.item.name,
+    category: props.item.category,
     type: props.item.type,
     actor: props.item.actor,
     country: props.item.country,
@@ -94,6 +99,18 @@ const EditMoviePopup = (props: IProps) => {
         />
         <div className="grid grid-cols-1 md:grid-cols-2  p-4 gap-4">
           <Input name="name" value={movie.name} onChange={handleChange} />
+          <Dropdown
+            title="Category"
+            list={listCategory}
+            selectedItem={
+              movie.category &&
+              listCategory.filter((item) => item.value === movie.category)[0]
+                .name
+            }
+            onItemClick={(e: any) =>
+              setMovie({ ...movie, category: e.target.dataset.value })
+            }
+          />
           <Input
             name="type"
             value={strType}

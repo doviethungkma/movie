@@ -126,3 +126,26 @@ export const getRandomMovie = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getMovierByCategoryId = async (req: Request, res: Response) => {
+  const { categoryId } = req.params;
+  try {
+    const movies = await Movie.find({ category: categoryId });
+    if (movies) {
+      res.status(HTTP_STATUS.SUCCESS).json({
+        status: "success",
+        movies,
+      });
+    } else {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Get movie failed",
+      });
+    }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};

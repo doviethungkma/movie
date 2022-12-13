@@ -5,6 +5,7 @@ import {
   editMovie,
   getAllMovie,
   getMovieById,
+  getMovierByCategoryId,
   getRandomMovie,
 } from "./../controllers/movie";
 import { verifyToken } from "../middlewares/tokenHandler";
@@ -20,11 +21,13 @@ router.post(
   addMovie
 );
 
-router.get("/", getAllMovie); //for all user so not check token and role
-
 router.get("/:movieId", getMovieById); //for all user so not check token and role
 
 router.get("/random/:ranSize", getRandomMovie);
+
+router.get("/category/:categoryId", getMovierByCategoryId);
+
+router.get("/", getAllMovie); //for all user so not check token and role
 
 router.put(
   "/:movieId",

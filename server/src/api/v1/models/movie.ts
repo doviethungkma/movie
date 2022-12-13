@@ -8,6 +8,10 @@ export const movieSchema = new mongoose.Schema(
       require: true,
       unique: true,
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
     nameImage: {
       type: String,
     },
