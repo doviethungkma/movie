@@ -149,3 +149,24 @@ export const getMovierByCategoryId = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const searchMovie = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.query;
+    const result = await Movie.find({
+      name: {
+        $regex: name,
+        $options: "i",
+      },
+    });
+    res.status(HTTP_STATUS.SUCCESS).json({
+      status: "success",
+      result,
+    });
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};

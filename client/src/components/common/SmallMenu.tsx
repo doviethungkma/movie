@@ -24,9 +24,14 @@ const SmallMenu = () => {
             <div
               key={item.id}
               className="w-full flex gap-3 hover:text-gray-400 cursor-pointer transition-all px-6 py-3"
-              onClick={() =>
-                navigate(item._id === "" ? `/` : `/movie/list/${item._id}`)
-              }
+              onClick={() => {
+                dispatch(hideMenu());
+                navigate(item._id === "" ? `/` : `/movie/list/${item._id}`, {
+                  state: {
+                    title: item.name,
+                  },
+                });
+              }}
             >
               <img src={item.icon} alt="" />
               <p>{item.name}</p>

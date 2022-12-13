@@ -7,6 +7,7 @@ import {
   getMovieById,
   getMovierByCategoryId,
   getRandomMovie,
+  searchMovie,
 } from "./../controllers/movie";
 import { verifyToken } from "../middlewares/tokenHandler";
 import { checkRole } from "./../middlewares/roleHandler";
@@ -20,6 +21,7 @@ router.post(
   checkRole([ROLE.ADMIN, ROLE.MOD]),
   addMovie
 );
+router.get("/search", searchMovie);
 
 router.get("/:movieId", getMovieById); //for all user so not check token and role
 

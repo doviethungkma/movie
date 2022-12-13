@@ -6,6 +6,7 @@ const movieApi = {
   getByCategoryId: (id: string) => axiosClient.get(`/movie/category/${id}`),
   getRandomMovie: (randomSize: number) =>
     axiosClient.get(`/movie/random/${randomSize}`),
+  searchMovie: (name: string) => axiosClient.get(`/movie/search?name=${name}`),
 };
 
 export default movieApi;
