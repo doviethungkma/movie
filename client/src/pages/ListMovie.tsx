@@ -5,7 +5,7 @@ import movieApi from "../api/movieApi";
 import { AxiosResponse } from "axios";
 import { IMovie } from "../interfaces/movie";
 import { useDispatch } from "react-redux";
-import { setMovie, showMoviePopup } from "../redux/features/movieSlice";
+import { setMovie, showMovieModal } from "../redux/features/movieSlice";
 
 const ListMovie = () => {
   const { categoryId } = useParams();
@@ -38,7 +38,7 @@ const ListMovie = () => {
               className="w-full h-full hover:scale-110 transition-all duration-400 cursor-pointer"
               onClick={() => {
                 dispatch(setMovie(item));
-                dispatch(showMoviePopup());
+                dispatch(showMovieModal());
               }}
             />
           ))}

@@ -3,18 +3,17 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
+import Comment from "../components/common/Comment";
 import EpisodeCard from "../components/common/MovieCard";
 import MovieDescription from "../components/common/MovieDescription";
 import MovieDetail from "../components/common/MovieDetail";
 import MoviePopupSlider from "../components/common/MoviePopupSlider";
 import { IMovie } from "../interfaces/movie";
-import movieApi from "./../api/movieApi";
 import {
-  hideMoviePopup,
-  showMoviePopup,
   setMovie as setStateMovie,
+  showMovieModal,
 } from "../redux/features/movieSlice";
-import Comment from "../components/common/Comment";
+import movieApi from "./../api/movieApi";
 
 import { IEpisode } from "./../interfaces/movie";
 
@@ -96,7 +95,7 @@ const Movie = () => {
                 onItemClick={() => {
                   navigate("/");
                   dispatch(setStateMovie(item));
-                  dispatch(showMoviePopup());
+                  dispatch(showMovieModal());
                 }}
               />
             </SwiperSlide>
