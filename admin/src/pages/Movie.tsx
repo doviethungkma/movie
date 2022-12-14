@@ -1,34 +1,48 @@
-import { useState, useEffect } from "react";
-import movieApi from "../api/movieApi";
-import { IMovie } from "../interfaces/movie";
-import { useSelector, useDispatch } from "react-redux";
-import { rootState } from "../redux/store";
-import MoviePopup from "../components/layout/MoviePopup";
-import { showMoviePopup, showAddMovie } from "../redux/features/commonSlice";
+import { useEffect, useState } from "react";
 import Button from "../components/common/Button";
-import AddMoviePopup from "./../components/layout/AddMoviePopup";
+import AddMoviePopup from "../components/layout/AddMoviePopup";
+import EditMoviePopup from "../components/layout/EditMoviePopup";
+import EpisodePopup from "../components/layout/EpisodePopup";
+import MoviePopup from "../components/layout/MoviePopup";
+import { IMovie } from "../interfaces/movie";
+import {
+  getAllMovie,
+  getMovieById,
+  showAddMovie,
+  showEditMovie,
+  showEpisodePopup,
+  showMoviePopup,
+} from "../redux/features/movieSlice";
+import { useAppDispatch, useAppSelector } from "./../hooks/useTypedSelector";
+import { IEpisode } from "./../interfaces/movie";
+import TableTitle from "./../components/common/TableTitle";
 
 const Movie = () => {
   let i = 1;
-  const dispatch = useDispatch();
-  const [movies, setmovies] = useState<Array<IMovie>>([]);
+  const listTableTitle = [
+    "ID",
+    "Name",
+    "Thumb",
+    "Total Ep",
+    "Year",
+    "Acceptable",
+    "Current Ep",
+  ];
+  const dispatch = useAppDispatch();
+  const {
+    movies,
+    isShowMoviePopup,
+    isShowAddMovie,
+    isShowEditMovie,
+    isShowEpisodePopup,
+  } = useAppSelector((state) => state.movie);
+
   const [movie, setMovie] = useState<IMovie>();
 
-  const isShowMoviePopup = useSelector(
-    (state: rootState) => state.common.isShowMoviePopup
-  );
-  const isShowAddMovie = useSelector(
-    (state: rootState) => state.common.isShowAddMovie
-  );
-
-  const getData = async () => {
-    const response: any = await movieApi.getAll();
-    setmovies(response.movies);
-  };
-
   useEffect(() => {
-    getData();
-  }, []);
+    dispatch(getAllMovie());
+  }, [dispatch]);
+
   return (
     <>
       <div className="w-full h-[66px] border-b border-thin">
@@ -57,27 +71,7 @@ const Movie = () => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                ID
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Name
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Thumb
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Total ep
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Year
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Acceptable
-              </th>
-              <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
-                Tags
-              </th>
+              <TableTitle listTitle={listTableTitle} />
               <th className="text-xs text-left text-gray-500 uppercase font-normal px-2 py-4 ">
                 <Button
                   name="Add Movie"
@@ -94,7 +88,13 @@ const Movie = () => {
               movies.map((item, index) => (
                 <tr key={index}>
                   <td className=" px-2 py-4 text-white bg-[#212529]">{i++}</td>
-                  <td className=" px-2 py-4 text-white bg-[#212529]">
+                  <td
+                    className=" px-2 py-4 text-white cursor-pointer hover:text-green-500 transition-all bg-[#212529]"
+                    onClick={() => {
+                      setMovie(item);
+                      dispatch(showMoviePopup());
+                    }}
+                  >
                     {item.name}
                   </td>
                   <td className=" px-2 py-4 text-white bg-[#212529]">
@@ -109,8 +109,14 @@ const Movie = () => {
                   <td className=" px-2 py-4 text-white bg-[#212529]">
                     {item.acceptable}
                   </td>
-                  <td className=" px-2 py-4 text-white bg-[#212529]">
-                    {item.tags}
+                  <td
+                    className=" px-2 py-4 bg-[#212529] text-blue-500 cursor-pointer hover:text-green-500 transition-all"
+                    onClick={() => {
+                      dispatch(getMovieById(item._id as string));
+                      dispatch(showEpisodePopup());
+                    }}
+                  >
+                    {item.episodes?.length}
                   </td>
                   <td className="px-2 py-4 text-white bg-[#212529]">
                     <div className="flex gap-3">
@@ -123,7 +129,13 @@ const Movie = () => {
                       >
                         <i className="bx bxs-show text-lg text-red-500"></i>
                       </div>
-                      <div className="w-[30px] h-[30px] rounded bg-blue-300 flex items-center justify-center">
+                      <div
+                        className="w-[30px] h-[30px] rounded bg-blue-300 flex items-center justify-center"
+                        onClick={() => {
+                          setMovie(item);
+                          dispatch(showEditMovie());
+                        }}
+                      >
                         <i className="bx bx-edit-alt text-lg text-blue-500"></i>
                       </div>
                     </div>
@@ -135,6 +147,8 @@ const Movie = () => {
       </div>
       {isShowMoviePopup && <MoviePopup item={movie as IMovie} />}
       {isShowAddMovie && <AddMoviePopup />}
+      {isShowEditMovie && <EditMoviePopup item={movie as IMovie} />}
+      {isShowEpisodePopup && <EpisodePopup />}
     </>
   );
 };

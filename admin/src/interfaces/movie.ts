@@ -1,16 +1,18 @@
 export interface IEpisode {
-  id: number;
-  thumb: string;
+  _id?: string;
+  id?: number;
   title?: string;
+  thumb?: string;
   description?: string;
   time?: string;
-  url: string;
+  url?: string;
 }
 
 export interface IMovie {
   _id?: string;
   name: string;
-  nameImage: string;
+  category?: string;
+  nameImage?: string;
   year?: string;
   country?: string;
   description?: string;
@@ -22,4 +24,5 @@ export interface IMovie {
   acceptable: string;
   tags?: Array<string>;
   episodes?: Array<IEpisode>;
+  status?: string;
 }

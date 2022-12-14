@@ -1,73 +1,67 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IMovie } from "../../interfaces/movie";
 
-interface IState {
-  isShowLogin: boolean;
+interface ICommonSliceState {
   isShowMenu: boolean;
+  isShowLogin: boolean;
   isShowSignup: boolean;
-  isShowVideoPopup: {
-    status?: boolean;
-    movie?: IMovie | any;
-  };
+  isShowUserMenu: boolean;
+  isShowUserDetailModal: boolean;
 }
 
-const initialState: IState = {
-  isShowLogin: false,
+const initialState: ICommonSliceState = {
   isShowMenu: false,
+  isShowLogin: false,
   isShowSignup: false,
-  isShowVideoPopup: {
-    status: false,
-    movie: {},
-  },
+  isShowUserMenu: false,
+  isShowUserDetailModal: false,
 };
 
 const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
-    showLogin: (state) => {
-      state.isShowLogin = true;
-    },
-    hideLogin: (state) => {
-      state.isShowLogin = false;
-    },
-    showSignup: (state) => {
-      state.isShowSignup = true;
-    },
-    hideSignup: (state) => {
-      state.isShowSignup = false;
-    },
-    toggleMenu: (state) => {
-      state.isShowMenu = !state.isShowMenu;
-    },
     showMenu: (state) => {
       state.isShowMenu = true;
     },
     hideMenu: (state) => {
       state.isShowMenu = false;
     },
-    showVideoPopup: (state) => {
-      state.isShowVideoPopup.status = true;
-      // state.isShowVideoPopup.movie = action.payload.movie;
+    showLoginPopup: (state) => {
+      state.isShowLogin = true;
     },
-    hideVideoPopup: (state) => {
-      state.isShowVideoPopup.status = false;
-      // state.isShowVideoPopup.movie = {};
+    hideLoginPopup: (state) => {
+      state.isShowLogin = false;
+    },
+    showSignupPopup: (state) => {
+      state.isShowSignup = true;
+    },
+    hideSignupPopup: (state) => {
+      state.isShowSignup = false;
+    },
+    showUserDetailModal: (state) => {
+      state.isShowUserDetailModal = true;
+    },
+    hideUserDetailModal: (state) => {
+      state.isShowUserDetailModal = false;
+    },
+    toggleUserMenuPopup: (state) => {
+      state.isShowUserMenu = !state.isShowUserMenu;
     },
   },
 });
 
 const { reducer } = commonSlice;
 export const {
-  showLogin,
-  hideLogin,
-  showSignup,
-  hideSignup,
   showMenu,
   hideMenu,
-  toggleMenu,
-  showVideoPopup,
-  hideVideoPopup,
+  showLoginPopup,
+  hideLoginPopup,
+  showSignupPopup,
+  hideSignupPopup,
+  toggleUserMenuPopup,
+  showUserDetailModal,
+  hideUserDetailModal,
 } = commonSlice.actions;
 
 export default reducer;

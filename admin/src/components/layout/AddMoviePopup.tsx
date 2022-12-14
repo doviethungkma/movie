@@ -1,40 +1,86 @@
-import { useState } from "react";
-import PopupTitle from "../common/PopupTitle";
-import Overlay from "./../common/Overlay";
-import { useDispatch } from "react-redux";
-import { hideAddMovie } from "../../redux/features/commonSlice";
-import Input from "../common/Input";
-import Dropdown from "../common/Dropdown";
-import { listAcceptableValue, listMovieStatus } from "../../utils/constant";
-import Button from "../common/Button";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import movieApi from "../../api/movieApi";
 import { IMovie } from "../../interfaces/movie";
-import movieApi from "./../../api/movieApi";
+import { hideAddMovie } from "../../redux/features/movieSlice";
+import {
+  listAcceptableValue,
+  listMovieStatus,
+  listCategory,
+} from "../../utils/constant";
+import Button from "../common/Button";
+import Dropdown from "../common/Dropdown";
+import Input from "../common/Input";
+import Overlay from "../common/Overlay";
+import PopupTitle from "../common/PopupTitle";
+import { useAppDispatch } from "./../../hooks/useTypedSelector";
+import { getAllMovie } from "./../../redux/features/movieSlice";
 
 const AddMoviePopup = () => {
-  const dispatch = useDispatch();
-  const [selectedItem, setSelectedItem] = useState("");
-  const [movie, setMovie] = useState({
+  const dispatch = useAppDispatch();
+  const [strType, setStrType] = useState("");
+  const [strTags, setStrTags] = useState("");
+  const [strActor, setStrActor] = useState("");
+  const [movie, setMovie] = useState<IMovie>({
     name: "",
-    type: "",
+    type: [],
     country: "",
     year: "",
     totalEp: 1,
     thumb: "",
     trailer: "",
-    actor: "",
-    tag: "",
+    actor: [],
+    tags: [],
     acceptable: "",
     status: "",
   });
+  console.log(movie);
 
   const handleChange = (e: any) => {
     setMovie({ ...movie, [e.target.name]: e.target.value });
   };
 
   const onSave = async () => {
-    const response = await movieApi.create(movie);
-    console.log(response);
+    try {
+      const response = await movieApi.create(movie);
+      dispatch(getAllMovie());
+      toast.success("Create movie sucessfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } catch (error) {
+      toast.error("Create movie failed", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    const stringToArray = setTimeout(() => {
+      const arrType = strType.split(", ");
+      setMovie({ ...movie, type: arrType });
+    });
+
+    return () => clearTimeout(stringToArray);
+  }, [strType]);
+
+  useEffect(() => {
+    const stringToArray = setTimeout(() => {
+      const arrTags = strTags.split(", ");
+      setMovie({ ...movie, tags: arrTags });
+    });
+
+    return () => clearTimeout(stringToArray);
+  }, [strTags]);
+
+  useEffect(() => {
+    const stringToArray = setTimeout(() => {
+      const arrActors = strActor.split(", ");
+      setMovie({ ...movie, actor: arrActors });
+    });
+
+    return () => clearTimeout(stringToArray);
+  }, [strActor]);
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50">
@@ -46,7 +92,23 @@ const AddMoviePopup = () => {
         />
         <div className="grid grid-cols-1 md:grid-cols-2  p-4 gap-4">
           <Input name="name" placeholder="Movie name" onChange={handleChange} />
-          <Input name="type" placeholder="Type" onChange={handleChange} />
+          <Dropdown
+            title="Category"
+            list={listCategory}
+            selectedItem={
+              movie.category &&
+              listCategory.filter((item) => item.value === movie.category)[0]
+                .name
+            }
+            onItemClick={(e: any) =>
+              setMovie({ ...movie, category: e.target.dataset.value })
+            }
+          />
+          <Input
+            name="type"
+            placeholder="Type"
+            onChange={(e: any) => setStrType(e.target.value)}
+          />
           <Input name="country" placeholder="Country" onChange={handleChange} />
           <Input name="year" placeholder="Year" onChange={handleChange} />
           <Input
@@ -58,12 +120,27 @@ const AddMoviePopup = () => {
           <Input
             name="totalEp"
             placeholder="Total Ep"
-            onChange={handleChange}
+            onChange={(e: any) =>
+              setMovie({ ...movie, totalEp: parseInt(e.target.value) })
+            }
           />
           <Input name="thumb" placeholder="Thumb" onChange={handleChange} />
           <Input name="trailer" placeholder="Trailer" onChange={handleChange} />
-          <Input name="actor" placeholder="Actor" onChange={handleChange} />
-          <Input name="tags" placeholder="Tags" onChange={handleChange} />
+          <Input
+            name="nameImage"
+            value={movie.nameImage}
+            onChange={handleChange}
+          />
+          <Input
+            name="actor"
+            placeholder="Actor"
+            onChange={(e: any) => setStrActor(e.target.value)}
+          />
+          <Input
+            name="tags"
+            placeholder="Tags"
+            onChange={(e: any) => setStrTags(e.target.value)}
+          />
           <div className="md:col-span-2">
             <Input
               name="description"

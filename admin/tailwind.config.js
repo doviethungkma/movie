@@ -10,6 +10,9 @@ module.exports = {
       borderColor: {
         thin: "rgba(255,255,255,0.05)",
       },
+      backgroundImage: {
+        login: "url('/src/assets/images/background.jpg')",
+      },
     },
   },
   plugins: [],

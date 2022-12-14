@@ -8,6 +8,10 @@ export const movieSchema = new mongoose.Schema(
       require: true,
       unique: true,
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
     nameImage: {
       type: String,
     },
@@ -49,6 +53,10 @@ export const movieSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    status: {
+      type: String,
+      default: "active",
+    },
     episodes: [
       {
         id: {

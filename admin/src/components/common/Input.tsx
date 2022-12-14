@@ -1,22 +1,26 @@
 import React from "react";
 
 interface IProps {
-  name: string;
+  name?: string;
+  type?: string;
   placeholder?: string;
   value?: string;
   width?: string;
   height?: string;
   disabled?: boolean;
   onChange?: any;
+  noTitle?: boolean;
 }
 
 const Input = (props: IProps) => {
   return (
-    <div className="w-full">
-      <h4 className="text-white mb-2 capitalize">{props.name}</h4>
+    <div className="">
+      {!props.noTitle && (
+        <h4 className="text-white mb-2 capitalize">{props.name}</h4>
+      )}
       <input
-        type="text"
-        name={props.name}
+        type={props.type ? props.type : "text"}
+        name={props.name && props.name}
         onChange={props.onChange}
         placeholder={props.placeholder}
         value={props.value}

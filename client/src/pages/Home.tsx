@@ -1,48 +1,35 @@
 // import required modules
-import HeroVideo from "../components/common/HeroVideo";
-import Slider from "../components/common/Slider";
-import VideoPopup from "../components/common/VideoPopup";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import movieApi from "../api/movieApi";
-import { useEffect } from "react";
-import { useState } from "react";
+
+import { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
+import Hero from "../components/layout/Home/Hero";
+import HomeMovieSlider from "../components/layout/Home/HomeMovieSlider";
 import { IMovie } from "../interfaces/movie";
+import movieApi from "./../api/movieApi";
 
 const Home = () => {
-  const isShowVideoPopup = useSelector(
-    (state: RootState) => state.common.isShowVideoPopup
-  );
-  const movie = useSelector((state: RootState) => state.movie.movie);
-  const [movieList, setMovieList] = useState() as any;
+  const [movies, setMovies] = useState<IMovie[]>();
 
-  const fetchData = async () => {
-    const response = (await movieApi.getAll()) as any;
-    setMovieList(response.movies);
-    console.log(response);
+  const getData = async () => {
+    const response: AxiosResponse = await movieApi.getRandomMovie(20);
+    setMovies(response.data.movies);
   };
 
   useEffect(() => {
-    fetchData();
+    getData();
   }, []);
 
   return (
-    <div className="-z-10 bg-background-color">
-      <HeroVideo />
-      <div className="w-full absolute top-full flex flex-col gap-10 mt-4 xl:top-[85%] z-20 px-8">
-        <Slider title={"Thinh hanh"} class={"first-slider"} list={movieList} />
-
-        <Slider title={"Mới nhất"} list={movieList} />
-        {/* <Slider
-              title={"Sôi động cùng ngoại hạng anh"}
-              list={()=>get_random(movieList)}
-            />
-            <Slider title={"Phim hay mỗi ngày"} list={()=>get_random(movieList)} />
-            <Slider title={"Sắp phát sóng"} list={()=>get_random(movieList)} />
-            <Slider title={"Siêu phẩm Disney"} list={()=>get_random(movieList)} /> */}
+    <>
+      <div className="home absolute w-full top-0 left-0 -z-10 bg-background-color">
+        <Hero />
+        <div className="w-full absolute text-white top-[88vh] px-[30px]  md:pl-[58px] md:px-0 z-10">
+          <HomeMovieSlider title="Thịnh hành" movies={movies} />
+          <HomeMovieSlider title="Mới nhất" movies={movies} />
+          <HomeMovieSlider title="Mới nhất" movies={movies} />
+        </div>
       </div>
-      {isShowVideoPopup.status && <VideoPopup movie={movie} />}
-    </div>
+    </>
   );
 };
 

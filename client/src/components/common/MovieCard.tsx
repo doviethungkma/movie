@@ -1,30 +1,36 @@
-import React from "react";
-import { IMovie } from "../../interfaces/movie";
-import { useDispatch } from "react-redux";
-import { showVideoPopup } from "../../redux/features/commonSlice";
-import { setMovie } from "../../redux/features/movieSlice";
+import { IEpisode, IMovie } from "../../interfaces/movie";
 
-interface IProps {
-  item: IMovie;
+interface IEpisodeCardProps {
+  episode?: IEpisode;
+  movie?: IMovie;
+  type?: string;
+  onItemClick?: () => void;
 }
 
-const MovieCard = (props: IProps) => {
-  const dispatch = useDispatch();
-
+const EpisodeCard = (props: IEpisodeCardProps) => {
+  const { episode, movie, type, onItemClick } = props;
   return (
     <div
-      onClick={() => {
-        dispatch(setMovie({ movie: props.item }));
-        dispatch(showVideoPopup());
-      }}
+      className="flex flex-col  overflow-hidden cursor-pointer"
+      onClick={onItemClick}
     >
       <img
-        src={props.item.thumb}
+        src={type === "episode" ? episode?.thumb : movie?.thumb}
         alt=""
-        className="max-w-full max-h-full object-cover aspect-video"
+        className="w-full aspect-video object-cover"
       />
+      <h4 className="min-h-[48px] text-md text-white mt-1 hover:text-green-500 transition-all">
+        {type === "episode"
+          ? episode?.title
+          : `${movie?.year} | ${movie?.country ? movie?.country : ""}`}
+      </h4>
+      <p className="text-xs text-justify mt-3 text-gray-500">
+        {type === "episode"
+          ? episode?.description?.substring(0, 100)
+          : movie?.description?.substring(0, 100)}
+      </p>
     </div>
   );
 };
 
-export default MovieCard;
+export default EpisodeCard;

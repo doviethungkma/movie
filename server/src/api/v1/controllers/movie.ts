@@ -7,7 +7,6 @@ import { IMovie } from "./../interfaces/movie";
 
 export const addMovie = async (req: Request, res: Response) => {
   let movie: IMovie = req.body;
-  console.log(movie);
   try {
     const newMovie = await Movie.create(movie);
     console.log(newMovie);
@@ -22,6 +21,34 @@ export const addMovie = async (req: Request, res: Response) => {
         msg: "Create new movie failed",
       });
     }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};
+
+export const editMovie = async (req: Request, res: Response) => {
+  const { movieId } = req.params;
+  const data = req.body;
+  try {
+    const movieUpdated = await Movie.findByIdAndUpdate(
+      movieId,
+      {
+        $set: data,
+      },
+      { new: true }
+    );
+    if (!movieUpdated)
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ status: "error", message: "Update movie failed" });
+
+    res.status(HTTP_STATUS.SUCCESS).json({
+      status: "success",
+      movie: movieUpdated,
+    });
   } catch (error: any) {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       status: "error",
@@ -67,6 +94,75 @@ export const getMovieById = async (req: Request, res: Response) => {
         msg: "Get movie failed",
       });
     }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};
+
+export const getRandomMovie = async (req: Request, res: Response) => {
+  const { ranSize } = req.params;
+  try {
+    const movies = await Movie.aggregate([
+      { $sample: { size: parseInt(ranSize) } },
+    ]);
+    if (movies) {
+      res.status(HTTP_STATUS.SUCCESS).json({
+        status: "success",
+        movies,
+      });
+    } else {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Get movie failed",
+      });
+    }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};
+
+export const getMovierByCategoryId = async (req: Request, res: Response) => {
+  const { categoryId } = req.params;
+  try {
+    const movies = await Movie.find({ category: categoryId });
+    if (movies) {
+      res.status(HTTP_STATUS.SUCCESS).json({
+        status: "success",
+        movies,
+      });
+    } else {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        status: "failed",
+        msg: "Get movie failed",
+      });
+    }
+  } catch (error: any) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      msg: error.message,
+    });
+  }
+};
+
+export const searchMovie = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.query;
+    const result = await Movie.find({
+      name: {
+        $regex: name,
+        $options: "i",
+      },
+    });
+    res.status(HTTP_STATUS.SUCCESS).json({
+      status: "success",
+      result,
+    });
   } catch (error: any) {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       status: "error",

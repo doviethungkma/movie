@@ -7,6 +7,17 @@ const axiosClient = axios.create({
   baseURL: baseUrl,
 });
 
+axiosClient.interceptors.request.use(async (config) => {
+  const token = localStorage.getItem("token");
+  return {
+    ...config,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+});
+
 axiosClient.interceptors.response.use(
   (response) => {
     if (response && response.data) return response.data;

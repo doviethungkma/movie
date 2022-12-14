@@ -54,6 +54,18 @@
         scrollbar-width: none;  /* Firefox */
     }
 
+    .swiper-button-disabled{
+        display: none !important;   
+    }
+
+    .swiper-button-next{
+        color: white
+    }
+
+    .popup{
+        opacity: 1 !important
+     }
+
 }
 
 

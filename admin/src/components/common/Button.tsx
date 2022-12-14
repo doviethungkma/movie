@@ -3,15 +3,19 @@ import React from "react";
 interface IProps {
   name: string;
   color?: string;
-  px: number;
-  py: number;
+  title?: string;
+  px?: number;
+  py?: number;
+  width?: string;
+  height?: string;
   onClick?: any; //temp
 }
 
 const Button = (props: IProps) => {
   return (
     <button
-      className={`px-${props.px} py-${props.py} ${props.color} rounded-md text-white`}
+      title={props.title}
+      className={`px-${props.px} py-${props.py} ${props.color} ${props.width} ${props.height} rounded-md text-white`}
       onClick={props.onClick}
     >
       {props.name}

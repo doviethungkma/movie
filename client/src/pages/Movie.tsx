@@ -1,123 +1,112 @@
-import { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
+import { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import movieApi from "./../api/movieApi";
+import { SwiperSlide } from "swiper/react";
+import Comment from "../components/common/Comment";
+import EpisodeCard from "../components/common/MovieCard";
+import MovieDescription from "../components/common/MovieDescription";
+import MovieDetail from "../components/common/MovieDetail";
+import MoviePopupSlider from "../components/common/MoviePopupSlider";
 import { IMovie } from "../interfaces/movie";
+import {
+  setMovie as setStateMovie,
+  showMovieModal,
+} from "../redux/features/movieSlice";
+import movieApi from "./../api/movieApi";
+
+import { IEpisode } from "./../interfaces/movie";
 
 const Movie = () => {
-  const params = useParams();
-  const movieId = params.movieId as string;
-  const [movie, setMovie] = useState<IMovie>();
-  const [currentEp, setcurrentEp] = useState(0);
-  const playbackImg = require("../assets/images/playbackImg.jpg");
-  const movieNameImg = require("../assets/images/title-image2.webp");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { movieId, episodeId } = useParams();
+  const [movie, setMovie] = useState<IMovie>();
+  const [movies, setMovies] = useState<IMovie[]>();
+  const [currentEpisode, setCurrentEpisode] = useState<IEpisode>();
 
-  //hide navbar on load
-  useEffect(() => {
-    const navbar = document.getElementById("navbar") as any;
-    navbar.style.display = "none";
+  const getRandomMovie = async () => {
+    const response: AxiosResponse = await movieApi.getRandomMovie(10);
+    setMovies(response.data.movies);
+  };
 
-    const handleScroll = () => {
-      if (window.pageYOffset < 1080) {
-        const navbar = document.getElementById("navbar") as any;
-        navbar.style.display = "none";
-      } else {
-        const navbar = document.getElementById("navbar") as any;
-        navbar.style.display = "flex";
-        navbar.style.backgroundColor = "#000";
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const getMovie = async () => {
+    const response: AxiosResponse = await movieApi.getById(movieId as string);
+    setMovie(response.data.movie);
+    console.log(response.data.movie);
+    const currentEp = response.data.movie.episodes.filter(
+      (item: any) => item._id === episodeId
+    );
+    setCurrentEpisode(currentEp[0]);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response: any = await movieApi.getById(movieId);
-      setMovie(response.movie);
-    };
-    fetchData();
+    getMovie();
+    getRandomMovie();
   }, []);
 
-  console.log(movie);
   return (
-    <>
-      <div className="w-screen h-auto aspect-video lg:h-screen relative">
-        <div className="flex items-center gap-2 absolute top-4 left-8 z-30">
-          <i
-            className="bx bx-chevron-left text-white text-[36px] cursor-pointer hover:text-gray-500 transition-all"
-            onClick={() => navigate("/")}
-          ></i>
-          <h2 className="text-white text-[28px]">
-            {movie?.episodes && movie?.episodes[currentEp]?.title}
-          </h2>
-        </div>
-        <ReactPlayer
-          url={movie?.episodes && movie.episodes[currentEp].url}
+    <div>
+      <div className="w-full max-h-screen aspect-video">
+        <iframe
+          title="title"
           width="100%"
           height="100%"
-          playing={true}
-          controls
-          light={movie?.thumb}
+          src={`${currentEpisode?.url}?image=${currentEpisode?.thumb}`}
+          scrolling="0"
+          allowFullScreen
+          className="aspect-video object-cover"
         />
       </div>
-      <div className="max-w-full grid grid-cols-1 md:grid-cols-60/40 gap-x-12 p-4 md:p-8 text-white">
-        <div className="md:col-span-2">
-          <img src={movieNameImg} alt="" />
-        </div>
-        <div>
-          <h2 className="text-[28px] mt-4">{movie?.name}</h2>
-          <div className="flex items-center gap-4">
-            <p className="text-sm">28.466.921 lượt xem</p>
-            <div className="flex items-center gap-2">
-              <span className="text-sm">4.5</span>
-              <div>
-                <i className="bx bxs-star text-yellow-500 text-sm"></i>
-                <i className="bx bxs-star text-yellow-500 text-sm"></i>
-                <i className="bx bxs-star text-yellow-500 text-sm"></i>
-                <i className="bx bxs-star text-yellow-500 text-sm"></i>
-                <i className="bx bxs-star text-yellow-500 text-sm"></i>
-              </div>
-            </div>
+      <div className="mt-[54px] px-6 md:px-[58px]">
+        <img src={movie?.nameImage} alt="" className="max-w-[300px]" />
+        <div className="w-full flex flex-col md:flex-row justify-between">
+          <div className="mt-12 w-full md:w-[70%]">
+            <MovieDescription movie={movie as IMovie} />
           </div>
-          {movie?.episodes && movie.episodes.length > 1 && (
-            <h3 className="font-bold text-lg mt-4">
-              {movie.episodes[currentEp].title}
-            </h3>
-          )}
-
-          <p className="mt-2 text-justify">{movie?.description}</p>
-        </div>
-        <div>
-          <div className="flex gap-6 mt-6">
-            <div className="flex flex-col items-center hover:text-gray-500 transition-all cursor-pointer">
-              <i className="bx bxs-comment text-[28px] text-gray-200"></i>
-              <p>Bình luận</p>
-            </div>
-            <div className="flex flex-col items-center hover:text-gray-500 transition-all cursor-pointer">
-              <i className="bx bx-paper-plane text-[28px] text-gray-200"></i>
-              <p>Chia sẻ</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 mt-4">
-            <p className="text-gray-500 ">
-              Diễn viên: <span className="text-white">{movie?.actor}</span>
-            </p>
-            <p className="text-gray-500 ">
-              Đạo diễn: <span className="text-white">Đạo diễn 1</span>
-            </p>
-            <p className="text-gray-500 ">
-              Thể loại: <span className="text-white">{movie?.type}</span>
-            </p>
+          <div className="w-full md:w-[20%] mt-8">
+            <MovieDetail movie={movie as IMovie} />
           </div>
         </div>
       </div>
-    </>
+      {movie?.episodes && movie.episodes.length > 1 && (
+        <div className="px-6 md:px-[58px] mt-8">
+          <MoviePopupSlider title="Danh sách tập">
+            {movie?.episodes?.map((item, index) => (
+              <SwiperSlide>
+                <EpisodeCard
+                  episode={item}
+                  type="episode"
+                  onItemClick={() => {}}
+                />
+              </SwiperSlide>
+            ))}
+          </MoviePopupSlider>
+        </div>
+      )}
+
+      <div className="px-6 md:px-[58px] mt-8">
+        <MoviePopupSlider title="Đề xuất cho bạn">
+          {movies?.map((item, index) => (
+            <SwiperSlide>
+              <EpisodeCard
+                type="movie"
+                movie={item}
+                onItemClick={() => {
+                  navigate("/");
+                  dispatch(setStateMovie(item));
+                  dispatch(showMovieModal());
+                }}
+              />
+            </SwiperSlide>
+          ))}
+        </MoviePopupSlider>
+      </div>
+      <div className="w-full max-w-[1024px] mt-10 px-6 md:px-[58px]">
+        <h4 className="text-white text-xl font-bold mb-4">Bình luận</h4>
+        <Comment />
+      </div>
+    </div>
   );
 };
 
