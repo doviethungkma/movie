@@ -23,8 +23,6 @@ const UserDetailModal = () => {
     setUserDetail({ ...userDetail, [e.target.name]: e.target.value });
   };
 
-  console.log(userDetail);
-
   const getUserDetail = async () => {
     const response = await userApi.getUserDetail(userId);
     const { name, email, phone, gender } = response.data.user;
