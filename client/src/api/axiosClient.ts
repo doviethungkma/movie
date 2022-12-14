@@ -2,9 +2,10 @@ import axios from "axios";
 import queryString from "query-string";
 
 const baseUrl: string = "http://localhost:8000/api/v1";
+const deploy_url = "https://movie-5ghs.onrender.com/api/v1";
 
 const axiosClient = axios.create({
-  baseURL: baseUrl,
+  baseURL: deploy_url,
   paramsSerializer: (params) => queryString.stringify({ params }),
 });
 
