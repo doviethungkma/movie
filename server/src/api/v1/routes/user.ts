@@ -15,8 +15,10 @@ const { params, body } = require("express-validator");
 
 const router = express.Router();
 
+//get all user
 router.get("/", validate, verifyToken, checkRole([ROLE.ADMIN]), getAllUser);
 
+//get user by id
 router.get(
   "/:userId",
   validate,
@@ -25,6 +27,7 @@ router.get(
   getUserById
 );
 
+//update user (role, status)
 router.put(
   "/:userId",
   validate,
@@ -33,15 +36,19 @@ router.put(
   updateUser
 );
 
+//update user detail (name, email, phone, gender)
 router.put("/detail/:userId", validate, verifyToken, updateUserDetail);
+
+//get user detail
 router.get("/detail/:userId", validate, verifyToken, getUserDetail);
 
-router.put(
-  "/:userId/:packageId/:packageMonth",
-  validate,
-  verifyToken,
-  checkRole([ROLE.ADMIN]),
-  renewPackage
-);
+// //Renew package
+// router.put(
+//   "/:userId/:packageId/:packageMonth",
+//   validate,
+//   verifyToken,
+//   checkRole([ROLE.ADMIN]),
+//   renewPackage
+// );
 
 export default router;

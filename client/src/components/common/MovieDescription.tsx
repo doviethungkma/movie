@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ReactStars from "react-stars";
 import { IMovie } from "../../interfaces/movie";
 

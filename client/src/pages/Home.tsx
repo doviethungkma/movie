@@ -1,22 +1,15 @@
 // import required modules
 
-import { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Hero from "../components/layout/Home/Hero";
 import HomeMovieSlider from "../components/layout/Home/HomeMovieSlider";
-import { IMovie } from "../interfaces/movie";
-import movieApi from "./../api/movieApi";
+import useMovie from "./../hooks/useMovie";
 
 const Home = () => {
-  const [movies, setMovies] = useState<IMovie[]>();
-
-  const getData = async () => {
-    const response: AxiosResponse = await movieApi.getRandomMovie(20);
-    setMovies(response.data.movies);
-  };
+  const { randomMovies, getRandomMovie } = useMovie();
 
   useEffect(() => {
-    getData();
+    getRandomMovie(20);
   }, []);
 
   return (
@@ -24,9 +17,9 @@ const Home = () => {
       <div className="home absolute w-full top-0 left-0 -z-10 bg-background-color">
         <Hero />
         <div className="w-full absolute text-white top-[88vh] px-[30px]  md:pl-[58px] md:px-0 z-10">
-          <HomeMovieSlider title="Thịnh hành" movies={movies} />
-          <HomeMovieSlider title="Mới nhất" movies={movies} />
-          <HomeMovieSlider title="Mới nhất" movies={movies} />
+          <HomeMovieSlider title="Thịnh hành" movies={randomMovies} />
+          <HomeMovieSlider title="Mới nhất" movies={randomMovies} />
+          <HomeMovieSlider title="Mới nhất" movies={randomMovies} />
         </div>
       </div>
     </>

@@ -1,5 +1,4 @@
-import { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
@@ -13,36 +12,28 @@ import {
   setMovie as setStateMovie,
   showMovieModal,
 } from "../redux/features/movieSlice";
-import movieApi from "./../api/movieApi";
 
+import useMovie from "./../hooks/useMovie";
 import { IEpisode } from "./../interfaces/movie";
 
 const Movie = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { movieId, episodeId } = useParams();
-  const [movie, setMovie] = useState<IMovie>();
-  const [movies, setMovies] = useState<IMovie[]>();
-  const [currentEpisode, setCurrentEpisode] = useState<IEpisode>();
 
-  const getRandomMovie = async () => {
-    const response: AxiosResponse = await movieApi.getRandomMovie(10);
-    setMovies(response.data.movies);
-  };
-
-  const getMovie = async () => {
-    const response: AxiosResponse = await movieApi.getById(movieId as string);
-    setMovie(response.data.movie);
-    console.log(response.data.movie);
-    const currentEp = response.data.movie.episodes.filter(
-      (item: any) => item._id === episodeId
-    );
-    setCurrentEpisode(currentEp[0]);
-  };
+  const {
+    randomMovies,
+    getRandomMovie,
+    movie,
+    getMovieById,
+    currentEp,
+    getCurrentEp,
+  } = useMovie();
 
   useEffect(() => {
-    getMovie();
-    getRandomMovie();
+    getMovieById(movieId as string);
+    getRandomMovie(20);
+    getCurrentEp(movieId as string, episodeId as string);
   }, []);
 
   return (
@@ -52,8 +43,7 @@ const Movie = () => {
           title="title"
           width="100%"
           height="100%"
-          src={`${currentEpisode?.url}?image=${currentEpisode?.thumb}`}
-          scrolling="0"
+          src={`${currentEp?.url}?image=${currentEp?.thumb}`}
           allowFullScreen
           className="aspect-video object-cover"
         />
@@ -72,8 +62,8 @@ const Movie = () => {
       {movie?.episodes && movie.episodes.length > 1 && (
         <div className="px-6 md:px-[58px] mt-8">
           <MoviePopupSlider title="Danh sách tập">
-            {movie?.episodes?.map((item, index) => (
-              <SwiperSlide>
+            {movie?.episodes?.map((item: IEpisode, index: number) => (
+              <SwiperSlide key={index}>
                 <EpisodeCard
                   episode={item}
                   type="episode"
@@ -87,7 +77,7 @@ const Movie = () => {
 
       <div className="px-6 md:px-[58px] mt-8">
         <MoviePopupSlider title="Đề xuất cho bạn">
-          {movies?.map((item, index) => (
+          {randomMovies?.map((item: IMovie, index: number) => (
             <SwiperSlide key={index}>
               <EpisodeCard
                 type="movie"

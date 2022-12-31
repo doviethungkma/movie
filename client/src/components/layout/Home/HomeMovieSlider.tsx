@@ -1,9 +1,9 @@
-import { Navigation, Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useDispatch } from "react-redux";
+import { Autoplay, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { IMovie } from "../../../interfaces/movie";
-import { useDispatch } from "react-redux";
 import { setMovie, showMovieModal } from "../../../redux/features/movieSlice";
 
 interface IHomeMovieSliderProps {
@@ -50,17 +50,26 @@ const HomeMovieSlider = (props: IHomeMovieSliderProps) => {
           className="mySwiper"
         >
           {movies &&
-            movies.map((item, index) => (
+            movies.map((item: IMovie, index: number) => (
               <SwiperSlide key={index}>
-                <img
-                  src={item.thumb}
-                  alt={item.thumb}
-                  className=" w-full h-full object-cover cursor-pointer"
-                  onClick={() => {
-                    dispatch(setMovie(item));
-                    dispatch(showMovieModal());
-                  }}
-                />
+                <div className="relative w-full aspect-video hover:scale-110 transition-all">
+                  <img
+                    src={item.thumb}
+                    alt={item.thumb}
+                    className="absolute w-full h-full  duration-400 cursor-pointer"
+                    onClick={() => {
+                      dispatch(setMovie(item));
+                      dispatch(showMovieModal());
+                    }}
+                  />
+                  {item.acceptable !== "all" && (
+                    <div className="flex items-center absolute top-4 py-[1px] px-3 bg-green-500 rounded-tr-md rounded-br-md">
+                      <p className="text-xs uppercase text-white">
+                        {item.acceptable}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </SwiperSlide>
             ))}
         </Swiper>

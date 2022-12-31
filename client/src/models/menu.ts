@@ -1,4 +1,4 @@
-interface IMenuModel {
+export interface IMenuModel {
   id: number;
   name: string;
   icon: string;
