@@ -109,7 +109,7 @@ export const login = async (req: Request, res: Response) => {
 export const getAllUser = async (req: Request, res: Response) => {
   try {
     const users = await User.find().select(
-      "_id username status role package watching"
+      "_id username status role package watching name email phone gender"
     );
     if (users) {
       res.status(HTTP_STATUS.SUCCESS).json({
@@ -182,17 +182,20 @@ export const getUserDetail = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const data = req.body;
+  const { role, status } = req.body;
   try {
     const userUpdated = await User.findByIdAndUpdate(
       userId,
       {
-        $set: data,
+        $set: {
+          role,
+          status,
+        },
       },
       {
         new: true,
       }
-    );
+    ).select("username role status package name email phone gender");
     if (!userUpdated)
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
@@ -233,7 +236,7 @@ export const updateUserDetail = async (req: any, res: Response) => {
       {
         new: true,
       }
-    ).select("name email phone gender");
+    ).select("username name email phone gender");
     if (!userUpdated)
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
@@ -293,7 +296,7 @@ export const renewPackage = async (req: Request, res: Response) => {
         new: true,
       }
     );
-    console.log(response);
+    console.log("response" + response);
 
     if (!response)
       return res

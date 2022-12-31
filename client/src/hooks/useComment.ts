@@ -8,7 +8,6 @@ const useComment = () => {
 
   const getCommentByProductId = async (movieId: string) => {
     const response: AxiosResponse = await commentApi.getByMovieId(movieId);
-    console.log(response);
     if (response.data.status === "success") setComments(response.data.comments);
   };
 
@@ -17,7 +16,6 @@ const useComment = () => {
       movie: movieId,
       content: content,
     });
-    console.log(response);
   };
 
   return { comments, getCommentByProductId, addComment };

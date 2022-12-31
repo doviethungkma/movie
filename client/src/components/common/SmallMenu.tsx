@@ -4,6 +4,7 @@ import { menu } from "../../models/menu";
 import { hideMenu } from "../../redux/features/commonSlice";
 import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
+import { IMenuModel } from "./../../models/menu";
 
 const SmallMenu = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const SmallMenu = () => {
               onClick={() => dispatch(hideMenu())}
             ></i>
           </div>
-          {menu.map((item, index) => (
+          {menu.map((item: IMenuModel, index: number) => (
             <div
               key={item.id}
               className="w-full flex gap-3 hover:text-gray-400 cursor-pointer transition-all px-6 py-3"

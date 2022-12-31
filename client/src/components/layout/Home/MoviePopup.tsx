@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
-import movieApi from "../../../api/movieApi";
 import { IMovie } from "../../../interfaces/movie";
 import {
   hideMovieModal,
@@ -16,6 +14,8 @@ import EpisodeCard from "../../common/MovieCard";
 import MovieDescription from "../../common/MovieDescription";
 import MovieDetail from "../../common/MovieDetail";
 import MoviePopupSlider from "../../common/MoviePopupSlider";
+import useMovie from "./../../../hooks/useMovie";
+import { IEpisode } from "./../../../interfaces/movie";
 import Comment from "./../../common/Comment";
 
 interface IMoviePopupProps {
@@ -24,18 +24,14 @@ interface IMoviePopupProps {
 
 const MoviePopup = (props: IMoviePopupProps) => {
   const { movie } = props;
-  const commentRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [movies, setmovies] = useState<IMovie[]>();
+  const commentRef = useRef<HTMLInputElement>(null);
 
-  const getData = async () => {
-    const response: AxiosResponse = await movieApi.getRandomMovie(10);
-    setmovies(response.data.movies);
-  };
+  const { randomMovies, getRandomMovie } = useMovie();
 
   useEffect(() => {
-    getData();
+    getRandomMovie(10);
   }, []);
 
   return (
@@ -104,7 +100,7 @@ const MoviePopup = (props: IMoviePopupProps) => {
       <div className="w-full px-4 sm:px-8 ">
         {movie.episodes && movie.episodes.length > 1 ? (
           <MoviePopupSlider title="Danh sách tập">
-            {movie.episodes.map((item, index) => (
+            {movie.episodes.map((item: IEpisode, index: number) => (
               <SwiperSlide key={index}>
                 <EpisodeCard
                   episode={item}
@@ -122,7 +118,7 @@ const MoviePopup = (props: IMoviePopupProps) => {
       </div>
       <div className="w-full px-4 sm:px-8 mt-8">
         <MoviePopupSlider title="Đề xuất cho bạn">
-          {movies?.map((item, index) => (
+          {randomMovies?.map((item: IMovie, index: number) => (
             <SwiperSlide key={index}>
               <EpisodeCard
                 type="movie"

@@ -2,12 +2,13 @@ import React from "react";
 import { menu } from "../../models/menu";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { IMenuModel } from "./../../models/menu";
 
 const LargeMenu = () => {
   const navigate = useNavigate();
   return (
     <div className="navbar__menu h-full flex gap-8 ml-11 hidden md:flex">
-      {menu.map((item, index) => (
+      {menu.map((item: IMenuModel, index: number) => (
         <div
           key={item.id}
           className="flex gap-3  items-center hover:text-gray-400 cursor-pointer transition-all"
