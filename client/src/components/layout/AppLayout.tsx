@@ -30,7 +30,6 @@ const AppLayout = () => {
 
   const movie = useSelector((state: RootState) => state.movie.movie);
 
-  console.log(isShowLogin);
   return (
     <div className="relative">
       <Navbar />

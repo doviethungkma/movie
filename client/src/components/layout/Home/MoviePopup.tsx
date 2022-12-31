@@ -43,7 +43,7 @@ const MoviePopup = (props: IMoviePopupProps) => {
       onClickOutside={() => dispatch(hideMovieModal())}
       onClose={() => dispatch(hideMovieModal())}
     >
-      <div className="relative w-full z-20">
+      <div className="relative w-full z-50">
         <img src={movie.thumb} alt="" className="w-full" />
         <div className="w-full absolute -bottom-6 sm:left-8">
           <img
@@ -105,7 +105,7 @@ const MoviePopup = (props: IMoviePopupProps) => {
         {movie.episodes && movie.episodes.length > 1 ? (
           <MoviePopupSlider title="Danh sách tập">
             {movie.episodes.map((item, index) => (
-              <SwiperSlide>
+              <SwiperSlide key={index}>
                 <EpisodeCard
                   episode={item}
                   type="episode"
@@ -123,7 +123,7 @@ const MoviePopup = (props: IMoviePopupProps) => {
       <div className="w-full px-4 sm:px-8 mt-8">
         <MoviePopupSlider title="Đề xuất cho bạn">
           {movies?.map((item, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <EpisodeCard
                 type="movie"
                 movie={item}
@@ -138,9 +138,7 @@ const MoviePopup = (props: IMoviePopupProps) => {
       </div>
       <div className="py-8 px-6 sm:px-8" id="comment-block" ref={commentRef}>
         <h4 className="text-white text-xl font-bold mb-4">Bình luận</h4>
-        <Comment />
-        <Comment />
-        <Comment />
+        <Comment movieId={movie._id} />
       </div>
     </Modal>
   );

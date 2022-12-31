@@ -46,7 +46,7 @@ const Movie = () => {
   }, []);
 
   return (
-    <div>
+    <div className="-z-10">
       <div className="w-full max-h-screen aspect-video">
         <iframe
           title="title"
@@ -88,7 +88,7 @@ const Movie = () => {
       <div className="px-6 md:px-[58px] mt-8">
         <MoviePopupSlider title="Đề xuất cho bạn">
           {movies?.map((item, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <EpisodeCard
                 type="movie"
                 movie={item}
@@ -104,7 +104,7 @@ const Movie = () => {
       </div>
       <div className="w-full max-w-[1024px] mt-10 px-6 md:px-[58px]">
         <h4 className="text-white text-xl font-bold mb-4">Bình luận</h4>
-        <Comment />
+        <Comment movieId={movieId as string} />
       </div>
     </div>
   );

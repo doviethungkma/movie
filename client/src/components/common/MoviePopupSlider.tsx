@@ -1,8 +1,8 @@
 import React from "react";
-import { Navigation, Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Swiper } from "swiper/react";
 
 interface IMoviePopupSliderProps {
   children: React.ReactNode;

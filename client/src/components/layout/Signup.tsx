@@ -54,9 +54,9 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-screen h-screen fixed z-40 text-white">
+    <div className="w-screen h-screen fixed top-0 left-0 z-40 text-white">
       <Overlay onClick={() => dispatch(hideLoginPopup())} />
-      <div className="w-[90%] max-w-[600px] max-h-[90%] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-sm border-t-4 border-t-green-500 overflow-scroll no-scrollbar bg-background-color">
+      <div className="w-[90%] max-w-[600px] max-h-[90%] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-sm border-t-4 border-t-green-500 overflow-scroll no-scrollbar bg-background-color z-50">
         <i
           className="bx bx-x absolute top-4 right-4 text-[32px] hover:text-green-500 transition-all cursor-pointer"
           onClick={() => dispatch(hideSignupPopup())}
