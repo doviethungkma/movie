@@ -20,6 +20,10 @@ module.exports = {
       screens: {
         xs: "500px",
       },
+      backgroundImage: {
+        "comment-bg":
+          "url('https://static2.vieon.vn/vieon-images/conversion/registration/comment_background_web_20220106.png')",
+      },
     },
   },
   plugins: [],
